@@ -43,8 +43,9 @@ help:
 	@echo "make energy_storms_omp	Build only the OpenMP version"
 	@echo
 	@echo "make all	Build all versions (Sequential, OpenMPCUDA)"
-	@echo "make debug	Build all version with demo output for small arrays (size<=35)"
-	@echo "make clean	Remove targets"
+	@echo "make debug_seq	Build the sequential version with demo output for small arrays (size<=35)"
+	@echo "make debug_par	Build the parallel version with demo output for small arrays (size<=35)"
+	@echo "make clean	Remove the targets"
 	@echo
 
 all: $(EXES)
