@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/cp2020_2021_g32_42648_52701_53042.dir/Src/energy_storms.c.o CMakeFiles/cp2020_2021_g32_42648_52701_53042.dir/Src/energy_storms_omp.c.o -o cp2020_2021_g32_42648_52701_53042 

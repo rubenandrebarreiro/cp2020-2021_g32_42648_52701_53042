@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="cp2020_2021_g32_42648_52701_53042"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cp2020_2021_g32_42648_52701_53042">
+				<Option output="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/cp2020_2021_g32_42648_52701_53042" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 cp2020_2021_g32_42648_52701_53042"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cp2020_2021_g32_42648_52701_53042/fast">
+				<Option output="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/cp2020_2021_g32_42648_52701_53042" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 cp2020_2021_g32_42648_52701_53042/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Project Assignment v1.0.pdf">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/README.md">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/LICENSE">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/Makefile">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/README">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/energy_storms.c">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/energy_storms_omp.c">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/README">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_01_a35_p5_w3">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_01_a35_p7_w2">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_01_a35_p8_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_01_a35_p8_w4">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_02_a30k_p20k_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_02_a30k_p20k_w2">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_02_a30k_p20k_w3">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_02_a30k_p20k_w4">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_02_a30k_p20k_w5">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_02_a30k_p20k_w6">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_03_a20_p4_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_04_a20_p4_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_05_a20_p4_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_06_a20_p4_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_07_a1M_p5k_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_07_a1M_p5k_w2">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_07_a1M_p5k_w3">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_07_a1M_p5k_w4">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_08_a100M_p1_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_08_a100M_p1_w2">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_08_a100M_p1_w3">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/test_files/test_09_a16-17_p3_w1">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/IEEEtran/IEEEtran.cls">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/IEEEtran/IEEEtran_HOWTO.pdf">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/IEEEtran/README">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/IEEEtran/bare_jrnl_compsoc.pdf">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/IEEEtran/bare_jrnl_compsoc.tex">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/IEEEtran/changelog.txt">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Templates/Trans_final_submission.docx">
+			<Option target="cp2020_2021_g32_42648_52701_53042"/>
+		</Unit>
+		<Unit filename="/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
