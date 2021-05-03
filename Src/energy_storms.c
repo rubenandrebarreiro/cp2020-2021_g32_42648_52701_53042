@@ -122,6 +122,7 @@ Storm read_storm_file( char *fname ) {
         ok = fscanf(fstorm, "%d %d\n", 
                     &(storm.posval[elem*2]),
                     &(storm.posval[elem*2+1]) );
+
         if ( ok != 2 ) {
             fprintf(stderr,"Error: Reading element %d in storm file %s\n", elem, fname );
             exit( EXIT_FAILURE );
