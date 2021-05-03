@@ -8,7 +8,7 @@ for FLN in $FILE_NAMES; do
   for N_CELLS in $N_CELLS; do
     for NR in $(seq 1 $NUM_RUNS); do
     # shellcheck disable=SC2028
-    time ./energy_storms_seq "$N_CELLS $FLN"
+    time ./energy_storms_seq "$N_CELLS" "$FLN"
     echo $'\n\n'
   done
 done | tee energy_storms_results.csv
