@@ -12,11 +12,13 @@
 
 DEBUG_RECORDS=true
 
+# Test 01.1 - Tested for Sequential Version(s)
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_01_1=("test_files/test_01_a35_p5_w3"
                                 "test_files/test_01_a35_p7_w2"
                                 "test_files/test_01_a35_p8_w1"
                                 "test_files/test_01_a35_p8_w4")
+
 
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_01_2=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2"
@@ -70,7 +72,7 @@ NUM_THREADS_LIST="1 2 4 6 8 12"
 
 NUM_EXECS="5"
 
-if [[ $DEBUG_RECORDS == true ]]
+if [[ "$DEBUG_RECORDS" == true ]]
 then
   echo $'\n'
   echo "Execution of Automated Tests and the extraction of their results started!!!"
@@ -79,7 +81,7 @@ fi
 
 for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
 
-  if [[ $DEBUG_RECORDS == true ]]
+  if [[ "$DEBUG_RECORDS" == true ]]
   then
     echo "Starting Sub-Test #$CURRENT_NUM_TEST of the Set {$TEST_SET_NUM}: ${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}"
   fi
@@ -153,7 +155,7 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
       fi
       # shellcheck disable=SC2027
       # shellcheck disable=SC2086
-      if [[ $DEBUG_RECORDS == true ]]
+      if [[ "$DEBUG_RECORDS" == true ]]
       then
         echo "Recording: [control_points="$NUM_CONTROL_POINTS" ; exec_num="$NUM_EXEC" ; real_time="$REAL_TIME" ; user_time="$USER_TIME" ; sys_time="$SYS_TIME" ; main_time="$MAIN_TIME"]"
       fi
@@ -163,14 +165,14 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
     done
   done
 
-  if [[ $DEBUG_RECORDS == true ]]
+  if [[ "$DEBUG_RECORDS" == true ]]
   then
     echo $'\n'
   fi
 
 done
 
-if [[ $DEBUG_RECORDS == true ]]
+if [[ "$DEBUG_RECORDS" == true ]]
 then
   echo $'\n'
   echo "Execution of Automated Tests and the extraction of their results finished!!!"
