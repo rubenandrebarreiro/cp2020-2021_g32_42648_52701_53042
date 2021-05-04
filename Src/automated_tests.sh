@@ -1,23 +1,30 @@
 DEBUG_RECORDS=true
 
-FILE_NAMES_EXEC_LIST_TEST_1=("test_files/test_01_a35_p5_w3"
-                             "test_files/test_01_a35_p5_w2"
-                             "test_files/test_01_a35_p8_w1"
-                             "test_files/test_01_a35_p8_w4"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w1"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w4"
-                             "test_files/test_01_a35_p5_w2 test_files/test_01_a35_p5_w1"
-                             "test_files/test_01_a35_p5_w2 test_files/test_01_a35_p5_w4"
-                             "test_files/test_01_a35_p5_w1 test_files/test_01_a35_p5_w4"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w1"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w4"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4"
-                             "test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4"
-                             "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4")
+# shellcheck disable=SC2034
+FILE_NAMES_EXEC_LIST_TEST_1_1=("test_files/test_01_a35_p5_w3"
+                               "test_files/test_01_a35_p5_w2"
+                               "test_files/test_01_a35_p8_w1"
+                               "test_files/test_01_a35_p8_w4")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_1="1000 10000 100000 1000000 10000000 100000000 1000000000"
+FILE_NAMES_EXEC_LIST_TEST_1_2=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2"
+                               "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w1"
+                               "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w4"
+                               "test_files/test_01_a35_p5_w2 test_files/test_01_a35_p5_w1"
+                               "test_files/test_01_a35_p5_w2 test_files/test_01_a35_p5_w4"
+                               "test_files/test_01_a35_p5_w1 test_files/test_01_a35_p5_w4")
+
+# shellcheck disable=SC2034
+FILE_NAMES_EXEC_LIST_TEST_1_3=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w1"
+                               "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w4"
+                               "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4"
+                               "test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4")
+
+# shellcheck disable=SC2034
+FILE_NAMES_EXEC_LIST_TEST_1_4=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4")
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_1_1="1000 10000 100000 1000000 10000000 100000000 1000000000"
 # shellcheck disable=SC2034
 NUM_CONTROL_POINTS_LIST_TEST_2="10 50 100 500 1000"
 # shellcheck disable=SC2034
@@ -35,10 +42,10 @@ NUM_CONTROL_POINTS_LIST_TEST_8="10 50 100"
 # shellcheck disable=SC2034
 NUM_CONTROL_POINTS_LIST_TEST_9="1000 10000 100000 1000000 10000000 100000000 1000000000"
 
-FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_1[@]}")
-NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_1
+FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_1_1[@]}")
+NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_1_1
 
-TEST_SET_NUM="1"
+TEST_SET_NUM="1_1"
 NUM_THREADS_LIST="1 2 4 6 8 12"
 
 NUM_EXECS="5"
