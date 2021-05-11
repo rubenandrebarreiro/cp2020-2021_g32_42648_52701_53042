@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rubenandrebarreiro/git/cp2020-2021_g32_42648_52701_53042/Src/energy_storms.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+sys/time.h
+-
+
