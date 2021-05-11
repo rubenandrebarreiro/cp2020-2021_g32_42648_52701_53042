@@ -18,7 +18,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<sys/time.h>
-#include<omp-tools.h>
+#include "omp.h"
 
 /* Function to get wall time */
 double cp_Wtime(){
