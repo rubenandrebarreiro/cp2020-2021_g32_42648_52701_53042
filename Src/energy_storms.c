@@ -47,7 +47,7 @@ void update( float *layer, int layer_size, int k, int pos, float energy ) {
     distance = distance + 1;
 
     /* 3. Square root of the distance */
-    /* NOTE: Real world atenuation typically depends on the square of the distance.
+    /* NOTE: Real world attenuation typically depends on the square of the distance.
        We use here a tailored equation that affects a much wider range of cells */
     float atenuacion = sqrtf( (float)distance );
 
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
     for( i=2; i<argc; i++ ) 
         storms[i-2] = read_storm_file( argv[i] );
 
-    /* 1.3. Intialize maximum levels to zero */
+    /* 1.3. Initialize maximum levels to zero */
     float maximum[ num_storms ];
     int positions[ num_storms ];
     for (i=0; i<num_storms; i++) {
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
     }
 
     /* 2. Begin time measurement */
-    double ttotal = cp_Wtime();
+    long double ttotal = cp_Wtime();
 
     /* START: Do NOT optimize/parallelize the code of the main program above this point */
 
@@ -228,7 +228,7 @@ int main(int argc, char *argv[]) {
     /* 7. Results output, used by the Tablon online judge software */
     printf("\n");
     /* 7.1. Total computation time */
-    printf("Time: %lf\n", ttotal );
+    printf("Time: %Lf\n", ttotal );
     /* 7.2. Print the maximum levels */
     printf("Result:");
     for (i=0; i<num_storms; i++)
