@@ -99,6 +99,8 @@ void debug_print(int layer_size, float *layer, int *positions, float *maximum, i
  */
 Storm read_storm_file( char *fname ) {
     FILE *fstorm = fopen( fname, "r" );
+
+    /******File opening error handling******/
     if ( fstorm == NULL ) {
         fprintf(stderr,"Error: Opening storm file %s\n", fname );
         exit( EXIT_FAILURE );

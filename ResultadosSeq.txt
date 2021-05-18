@@ -1,0 +1,66 @@
+//------TESTE 1------// Debugging geral, com arrays de 35 posiçoes
+
+test_01_a35_p5_w3 -> 10 4246.581055 (Time = 0.00000)
+test_01_a35_p7_w2 -> 26 5392.783203 (Time = 0.00000)
+test_01_a35_p8_w1 -> 14 12732.238281 (Time = 0.00000)
+test_01_a35_p8_w4 -> 2 20568.119141 (Time= 0.000000)
+
+
+
+//------TESTE 2------// Teste de workload pequena, com arrays de 30k posiçoes, cada wave com 20k particulas
+
+test_02_a30k_p20k_w1 -> 23 780150.187500  (Time = 0.011193)
+test_02_a30k_p20k_w2 -> 14 773140.687500 (Time = 0.007000)
+test_02_a30k_p20k_w3 -> 2 1155645.625000 (Time = 0.009004)
+test_02_a30k_p20k_w4 -> 24 1156436.250000 (Time = 0.007000)
+test_02_a30k_p20k_w5 -> 21 1536263.375000 (Time= 0.008001)
+test_02_a30k_p20k_w6 -> 20 1542790.375000 (Time= 0.016001)
+
+
+//------TESTE 3------// Teste de condiçoes especificas nas fronteiras das partiçoes, com arrays de 20 posiçoes, com 2 e 4 threads, um ficheiro de cada vez
+
+test_03_a20_p4_w1 -> 10 8644.420898 (Time= 0.00000)
+
+
+
+//------TESTE 4------// Igual a anterior
+
+test_04_a20_p4_w1 -> 16 8644.420898 (Time= 0.000000)
+
+
+//------TESTE 5------// Igual a anterior
+
+test_05_a20_p4_w1 -> 9 8552.858398 (Time= 0.000000)
+
+
+//------TESTE 6------// Igual a anterior
+
+test_06_a20_p4_w1 -> 16 8552.858398 (Time= 0.000000)
+
+
+
+//------TESTE 7------// Teste de otimizações, com arrays de 1M de posiçoes, waves de 5k particulas
+
+
+test_07_a1M_p5k_w1 -> 0 0.000000(Time=0.002999)
+
+test_07_a1M_p5k_w2 -> 5 273845248.000000(Time=0.002997)
+
+test_07_a1M_p5k_w3 -> 0 0.000000(Time=0.002000)
+
+test_07_a1M_p5k_w4 -> 0 0.000000(Time = 0.003002)
+
+
+//------TESTE 8------// Testa redução de eficiencia, para arrays de 100M de posiçoes, com uma particula por wave
+
+
+test_08_a100M_p1_w1 -> 10 268.245972 (Time=0.00000)
+
+test_08_a100M_p1_w2 -> 0 0.0000000( Time = 0.00000)
+
+test_08_a100M_p1_w3 -> 0 0.0000000 (Time = 0.00000)
+
+
+//------TESTE 9------//
+
+test_09_a16-17_p3_w1 -> 15 109.536438 (Time = 0.000000)
