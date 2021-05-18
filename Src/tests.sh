@@ -178,3 +178,16 @@ then
   echo "Execution of Automated Tests and the extraction of their results finished!!!"
   echo $'\n'
 fi
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
