@@ -50,11 +50,11 @@ help:
 
 all: $(EXES)
 
-energy_storms_seq: energy_storms.c
+energy_storms_seq: energy_storms_seq.c
 	$(CC) $(CFLAGS) $(DEBUG) -o $@ $< $(LIBS)
 
 energy_storms_omp: energy_storms_omp.c
-	$(CC) $(CFLAGS) $(DEBUG) $(OMPFLAG) -o $@ $< $(LIBS)
+	$(CC) $(CFLAGS) $(DEBUG) (OMPFLAG) -o $@ $< $(LIBS)
 
 # Remove the target files
 clean:
