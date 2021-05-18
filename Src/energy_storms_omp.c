@@ -201,7 +201,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    /* 4. Storms simulation */
+    /*4. Storms simulation */
     for (i = 0; i < num_storms; i++)
     {
 
