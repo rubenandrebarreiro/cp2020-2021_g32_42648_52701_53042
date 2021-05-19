@@ -37,12 +37,12 @@ help:
 	@echo
 	@echo "Group Trasgo, Universidad de Valladolid (Spain)"
 	@echo "EduHPC 2018: Peachy assignment"
-	@echo "Modified by João Lourenço, NOVA University Lisbon"
+	@echo "Modified by Joao Lourenco, NOVA University Lisbon"
 	@echo
 	@echo "make energy_storms_seq	Build only the sequential version"
 	@echo "make energy_storms_omp	Build only the OpenMP version"
 	@echo
-	@echo "make all	Build all versions (Sequential, OpenMPCUDA)"
+	@echo "make all	Build all versions (Sequential, OpenMP, CUDA)"
 	@echo "make debug_seq	Build the sequential version with demo output for small arrays (size<=35)"
 	@echo "make debug_omp	Build the parallel version with demo output for small arrays (size<=35)"
 	@echo "make clean	Remove the targets"
