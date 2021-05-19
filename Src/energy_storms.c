@@ -88,7 +88,7 @@ void debug_print(int layer_size, float *layer, const int *positions, const float
             int ticks = (int)( 60 * layer[k] / maximum[(num_storms - 1)] );
 
             /* Print all characters except the last one */
-            for(i=0; i < (ticks - 1); i++) {
+            for(i = 0; i < (ticks - 1); i++) {
                 printf("o");
             }
 
@@ -123,7 +123,7 @@ void debug_print(int layer_size, float *layer, const int *positions, const float
  */
 Storm read_storm_file(char *filename) {
 
-    FILE *file_storm = fopen(filename, "r" );
+    FILE *file_storm = fopen(filename, "r");
 
     if(file_storm == NULL ) {
         fprintf(stderr, "Error: Opening storm file %s\n", filename);
@@ -138,23 +138,26 @@ Storm read_storm_file(char *filename) {
         exit( EXIT_FAILURE );
     }
 
-    storm.position_values = (int *)malloc(sizeof(int) * storm.size * 2 );
+    storm.position_values = (int *) malloc(sizeof(int) * storm.size * 2);
 
     if(storm.position_values == NULL) {
-        fprintf(stderr, "Error: Allocating memory for storm file %s, with size %d\n", filename, storm.size );
+        fprintf(stderr, "Error: Allocating memory for storm file %s, with size %d\n", filename, storm.size);
         exit( EXIT_FAILURE );
     }
 
     int elem;
 
     for(elem=0; elem < storm.size; elem++) {
+
         ok = fscanf(file_storm, "%d %d\n", // NOLINT(cert-err34-c)
                     &(storm.position_values[(elem * 2)]),
                     &(storm.position_values[((elem * 2) + 1)]) );
 
         if(ok != 2) {
+
             fprintf(stderr, "Error: Reading element %d in storm file %s\n", elem, filename );
             exit( EXIT_FAILURE );
+
         }
 
     }
@@ -179,7 +182,7 @@ int main(int argc, char *argv[]) {
     }
 
     /* Retrieve the size of the Layer */
-    int layer_size = atoi( argv[1] ); // NOLINT(cert-err34-c)
+    int layer_size = atoi(argv[1]); // NOLINT(cert-err34-c)
 
     /* Retrieve the number of Storms */
     int num_storms = (argc - 2);
@@ -224,6 +227,7 @@ int main(int argc, char *argv[]) {
     }
     
     /* 4. Storms simulation */
+    /* For each input file */
     for(i=0; i < num_storms; i++) {
 
         /* 4.1. Add impacts energies to layer cells */
@@ -302,7 +306,7 @@ int main(int argc, char *argv[]) {
 
     for(i=0; i < num_storms; i++) {
 
-        printf(" %d %f", positions[i], maximum[i]);
+        printf(" %d %lf", positions[i], maximum[i]);
 
     }
 
