@@ -39,11 +39,11 @@ typedef struct {
 
 /* THIS FUNCTION CAN BE MODIFIED */
 /* Function to update a single position of the layer */
-void update(float *layer, int layer_size, int k, int position, float energy) {
+void update(float *layer, int layer_size, int cell, int position, float energy) {
 
     /* 1. Compute the absolute value of the distance between the
         impact position and the k-th position of the layer */
-    int distance = (position - k);
+    int distance = (position - cell);
 
     if(distance < 0) {
         distance = - distance;
@@ -62,7 +62,7 @@ void update(float *layer, int layer_size, int k, int position, float energy) {
 
     /* 5. Do not add if its absolute value is lower than the threshold */
     if ( ( energy_k >= (THRESHOLD / layer_size) ) || ( energy_k <= (-THRESHOLD / layer_size) ) ) { // NOLINT(cppcoreguidelines-narrowing-conversions)
-        layer[k] = (layer[k] + energy_k);
+        layer[cell] = (layer[cell] + energy_k);
     }
 
 }
@@ -138,7 +138,7 @@ Storm read_storm_file(char *filename) {
         exit( EXIT_FAILURE );
     }
 
-    storm.position_values = (int *)malloc(sizeof(int) * storm.size * 2 );
+    storm.position_values = (int *) malloc(sizeof(int) * storm.size * 2 );
 
     if(storm.position_values == NULL) {
         fprintf(stderr, "Error: Allocating memory for storm file %s, with size %d\n", filename, storm.size );
@@ -171,6 +171,8 @@ Storm read_storm_file(char *filename) {
 int main(int argc, char *argv[]) {
 
     int i, j, k;
+
+    int current_cell;
 
     /* 1.1. Read arguments */
     if (argc < 4) {
@@ -212,30 +214,23 @@ int main(int argc, char *argv[]) {
     // The current number of Thread (will be set as a Private Variable)
     int current_thread;
 
+    // Set the number of Threads given, as argument,
+    // as the flag of Number of Threads to be used by the OpenMP
+    omp_set_num_threads(num_threads);
+
     /* 2. Begin time measurement */
     long double total_time = compute_wall_time();
 
     /* START: Do NOT optimize/parallelize the code of the main program above this point */
 
     /* 3. Allocate memory for the layer and initialise to zero */
-    float *layer = (float *)malloc( sizeof(float) * layer_size );
-    float *layer_copy = (float *)malloc( sizeof(float) * layer_size );
+    float *layer = (float *) malloc(sizeof(float) * layer_size);
+    float *layer_copy = (float *) malloc(sizeof(float) * layer_size);
 
     if(layer == NULL || layer_copy == NULL) {
         fprintf(stderr,"Error: Allocating the layer memory\n");
         exit( EXIT_FAILURE );
     }
-
-    // Sequential Code for the initialisation of the Positions, in the Layer
-    /*
-    for(k=0; k < layer_size; k++) {
-        layer[k] = 0.0f;
-    }
-
-    for(k=0; k < layer_size; k++) {
-        layer_copy[k] = 0.0f;
-    }
-    */
 
     // The number of Positions in the Layer, to be initialised, individually, by each Thread
     int num_positions_in_layer_per_thread;
@@ -251,10 +246,6 @@ int main(int argc, char *argv[]) {
     int num_positions_in_layer_for_last_thread;
     num_positions_in_layer_for_last_thread = (num_positions_in_layer_per_thread + num_remaining_positions_in_layer_for_last_thread);
 
-    // Set the number of Threads given, as argument,
-    // as the flag of Number of Threads to be used by the OpenMP
-    omp_set_num_threads(num_threads);
-
     // Parallel Loop, in OpenMP, for each Thread, individually:
     // - Private Variables for each Thread: thread_id, current_thread
     // - Number of Threads to be launched, in the Parallel Loop: num_threads
@@ -266,6 +257,7 @@ int main(int argc, char *argv[]) {
         // Set the Private Variable for the ID of the current Thread
         thread_id = omp_get_thread_num();
 
+        // Compute the Offset for the Layer Position
         int layer_position_offset = (current_thread * num_positions_in_layer_per_thread);
 
         // If the current Thread's ID does not belong to the last Thread
@@ -297,24 +289,156 @@ int main(int argc, char *argv[]) {
 
     }
 
-    /* 4. Storms simulation */
-    for(i=0; i < num_storms; i++) {
+    /* If it is given more than one Storm File */
+    if(num_storms > 1) {
+
+        /* 4. Storms simulation */
+        /* For each input file */
+        for(i=0; i < num_storms; i++) {
+
+            /* 4.1. Add impacts energies to layer cells */
+            /* For each particle */
+            for(j=0; j < storms[i].size; j++) {
+
+                /* Get impact energy (expressed in thousandths) */
+                float energy = (float) (storms[i].position_values[((j * 2) + 1)] * 1000);
+
+                /* Get impact position */
+                int position = storms[i].position_values[(j * 2)];
+
+                /* For each cell in the layer */
+                for(k=0; k < layer_size; k++) {
+
+                    /* Update the energy value for the cell */
+                    update(layer, layer_size, k, position, energy);
+
+                }
+
+            }
+
+            /* 4.2. Energy relaxation between storms */
+            /* 4.2.1. Copy values to the ancillary array */
+            for(k=0; k < layer_size; k++) {
+
+                layer_copy[k] = layer[k];
+
+            }
+
+            /* 4.2.2. Update layer using the ancillary values.
+                      Skip updating the first and last positions */
+            for(k=1; k < (layer_size - 1); k++) {
+
+                layer[k] = ((layer_copy[(k - 1)] + layer_copy[k] + layer_copy[(k + 1)]) / 3);
+
+            }
+
+            /* 4.3. Locate the maximum value in the layer, and its position */
+            for(k=1; k < (layer_size - 1); k++) {
+
+                /* Check it only if it is a local maximum */
+                if((layer[k] > layer[(k - 1)]) && (layer[k] > layer[(k + 1)])) {
+
+                    if(layer[k] > maximum[i]) {
+
+                        maximum[i] = layer[k];
+                        positions[i] = k;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+    /* If it is given only one one Storm File */
+    else {
+
+        /* 4. Storms simulation */
+
+        // Retrieve the number of Particles of the single Storm
+        int num_particles;
+        num_particles = storms[0].size;
+
+        // Retrieve the Pointer for the Particles of the single Storm
+        int* particles;
+        particles = storms[0].position_values;
+
+        // The number of Particles, to be treated, individually, by each Thread
+        int num_particles_per_thread;
+        num_particles_per_thread = (num_particles / num_threads);
+
+        // The number of remaining Particles, to be treated, individually, by the last Thread
+        int num_remaining_particles_for_last_thread;
+        num_remaining_particles_for_last_thread = (num_particles % num_threads);
+
+        // The number of Particles, to be treated, individually, by the last Thread
+        // for the case of the total number of Particles, to be treated,
+        // are not divisible for the number of Threads
+        int num_particles_for_last_thread;
+        num_particles_for_last_thread = (num_particles_per_thread + num_remaining_particles_for_last_thread);
 
         /* 4.1. Add impacts energies to layer cells */
         /* For each particle */
-        for(j=0; j < storms[i].size; j++) {
+        // Parallel Loop, in OpenMP, for each Thread, individually:
+        // - Private Variables for each Thread: thread_id, current_thread
+        // - Number of Threads to be launched, in the Parallel Loop: num_threads
+        // - Shared Variables by all the Threads: num_threads, num_positions_in_layer_per_thread
+        // - NOTE: This loop is Embarrassingly Parallel and does not have any Loop-Carried Dependencies;
+        #pragma omp parallel for private(thread_id, current_thread, current_cell) num_threads(num_threads) shared(num_threads, num_particles_per_thread, layer, layer_size, particles)
+        for(current_thread = 0; current_thread < num_threads; current_thread++) {
 
-            /* Get impact energy (expressed in thousandths) */
-            float energy = (float) (storms[i].position_values[((j * 2) + 1)] * 1000);
+            // Set the Private Variable for the ID of the current Thread
+            thread_id = omp_get_thread_num();
 
-            /* Get impact position */
-            int position = storms[i].position_values[(j * 2)];
+            // Compute the Offset for the size for the Particles' Pointer
+            int particles_offset = (current_thread * (2 * num_particles_per_thread));
 
-            /* For each cell in the layer */
-            for(k=0; k < layer_size; k++) {
+            // If the current Thread's ID does not belong to the last Thread
+            if(thread_id < (num_threads - 1)) {
 
-                /* Update the energy value for the cell */
-                update(layer, layer_size, k, position, energy);
+                // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
+                for(int current_particle = 0; current_particle < num_particles_per_thread; current_particle++) {
+
+                    /* Get impact position */
+                    int position = particles[(particles_offset + (current_particle * 2))];
+
+                    /* Get impact energy (expressed in thousandths) */
+                    float energy = (float) (particles[((particles_offset + (current_particle * 2)) + 1)] * 1000);
+
+                    /* For each cell in the layer */
+                    for(current_cell = 0; current_cell < layer_size; current_cell++) {
+
+                        /* Update the energy value for the cell */
+                        update(layer, layer_size, current_cell, position, energy);
+
+                    }
+
+                }
+
+            }
+            // If the current Thread's ID belongs to the last Thread
+            else {
+
+                // For each Position in Layer to be initialised, individually, in Parallel, by the last Thread
+                for (int current_particle = 0; current_particle < num_particles_for_last_thread; current_particle++) {
+
+                    /* Get impact position */
+                    int position = particles[(particles_offset + (current_particle * 2))];
+
+                    /* Get impact energy (expressed in thousandths) */
+                    float energy = (float) (particles[((particles_offset + (current_particle * 2)) + 1)] * 1000);
+
+                    /* For each cell in the layer */
+                    for(current_cell = 0; current_cell < layer_size; current_cell++) {
+
+                        /* Update the energy value for the cell */
+                        update(layer, layer_size, current_cell, position, energy);
+
+                    }
+
+                }
 
             }
 
@@ -342,10 +466,10 @@ int main(int argc, char *argv[]) {
             /* Check it only if it is a local maximum */
             if((layer[k] > layer[(k - 1)]) && (layer[k] > layer[(k + 1)])) {
 
-                if(layer[k] > maximum[i]) {
+                if(layer[k] > maximum[0]) {
 
-                    maximum[i] = layer[k];
-                    positions[i] = k;
+                    maximum[0] = layer[k];
+                    positions[0] = k;
 
                 }
 
