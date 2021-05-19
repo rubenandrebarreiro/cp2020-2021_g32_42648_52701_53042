@@ -26,7 +26,6 @@ double cp_Wtime(){
     return tv.tv_sec + 1.0e-6 * tv.tv_usec;
 }
 
-
 #define THRESHOLD    0.001f
 
 /* Structure used to store data for one storm of particles */
@@ -49,10 +48,10 @@ void update( float *layer, int layer_size, int k, int pos, float energy ) {
     /* 3. Square root of the distance */
     /* NOTE: Real world attenuation typically depends on the square of the distance.
        We use here a tailored equation that affects a much wider range of cells */
-    float atenuacion = sqrtf( (float)distance );
+    float attenuation = sqrtf((float) distance );
 
     /* 4. Compute attenuated energy */
-    float energy_k = energy / layer_size / atenuacion;
+    float energy_k = energy / layer_size / attenuation;
 
     /* 5. Do not add if its absolute value is lower than the threshold */
     if ( energy_k >= THRESHOLD / layer_size || energy_k <= -THRESHOLD / layer_size )

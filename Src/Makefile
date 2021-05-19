@@ -24,8 +24,8 @@ CUDACC=nvcc
 OMPFLAG=-fopenmp
 
 # Flags for optimization and libs
-FLAGS=-O3
-LIBS=-lm
+CFLAGS=-O3 -ffast-math
+LIBS=
 
 # Targets to build
 EXES=energy_storms_seq energy_storms_omp
@@ -44,7 +44,7 @@ help:
 	@echo
 	@echo "make all	Build all versions (Sequential, OpenMPCUDA)"
 	@echo "make debug_seq	Build the sequential version with demo output for small arrays (size<=35)"
-	@echo "make debug_par	Build the parallel version with demo output for small arrays (size<=35)"
+	@echo "make debug_omp	Build the parallel version with demo output for small arrays (size<=35)"
 	@echo "make clean	Remove the targets"
 	@echo
 
