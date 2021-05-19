@@ -36,18 +36,6 @@ typedef struct {
     int *posval; // Positions and values
 } Storm;
 
-double fast_sqrt_assembly(double num)
-{
-    __asm__
-    (
-    "fsqrt"
-    : "+t" (num)
-    );
-
-    return num;
-
-}
-
 /* THIS FUNCTION CAN BE MODIFIED */
 /* Function to update a single position of the layer */
 void update( float *layer, int layer_size, int k, int pos, float energy ) {
@@ -62,8 +50,7 @@ void update( float *layer, int layer_size, int k, int pos, float energy ) {
     /* 3. Square root of the distance */
     /* NOTE: Real world attenuation typically depends on the square of the distance.
        We use here a tailored equation that affects a much wider range of cells */
-    //float attenuation = sqrtf( (float)distance );
-    float attenuation = (float) fast_sqrt_assembly((double) distance);
+    float attenuation = sqrtf( (float)distance );
 
     /* 4. Compute attenuated energy */
     float energy_k = energy / layer_size / attenuation;
