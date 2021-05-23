@@ -169,6 +169,21 @@ Storm read_storm_file(char *filename) {
 
 }
 
+
+void initiate_layers(float *layer, float *layer_copy_1, float *layer_copy_2, float *layer_copy_3, int num_positions_in_layer_per_thread, int layer_position_offset){
+
+    // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
+    for(int current_position_in_layer_thread = 0; current_position_in_layer_thread < num_positions_in_layer_per_thread; current_position_in_layer_thread++) {
+
+        // Initialisations of the Layer and Layer's Copy made sequentially, in Code Fusion
+        layer[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
+        layer_copy_1[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
+        layer_copy_2[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
+        layer_copy_3[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
+
+    }
+}
+
 /*
  * MAIN PROGRAM
  */
@@ -267,34 +282,15 @@ int main(int argc, char *argv[]) {
         // If the current Thread's ID does not belong to the last Thread
         if(thread_id < (num_threads - 1)) {
 
-            // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
-            for(int current_position_in_layer_thread = 0; current_position_in_layer_thread < num_positions_in_layer_per_thread; current_position_in_layer_thread++) {
-
-                // Initialisations of the Layer and Layer's Copy made sequentially, in Code Fusion
-                layer[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-                layer_copy_1[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-                layer_copy_2[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-                layer_copy_3[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-
-            }
+            initiate_layers(layer, layer_copy_1, layer_copy_2, layer_copy_3, num_positions_in_layer_per_thread, layer_position_offset);
 
         }
         // If the current Thread's ID belongs to the last Thread
         else {
 
-            // For each Position in Layer to be initialised, individually, in Parallel, by the last Thread
-            for(int current_position_in_layer_thread = 0; current_position_in_layer_thread < num_positions_in_layer_for_last_thread; current_position_in_layer_thread++) {
-
-                // Initialisations of the Layer and Layer's Copy made sequentially, in Code Fusion
-                layer[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-                layer_copy_1[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-                layer_copy_2[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-                layer_copy_3[(layer_position_offset + current_position_in_layer_thread)] = 0.0f;
-
-            }
+            initiate_layers(layer, layer_copy_1, layer_copy_2, layer_copy_3, num_positions_in_layer_per_thread, layer_position_offset);
 
         }
-
     }
 
     /* If it is given more than one Storm File */
