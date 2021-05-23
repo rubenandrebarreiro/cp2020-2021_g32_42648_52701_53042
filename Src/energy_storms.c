@@ -235,7 +235,7 @@ int main(int argc, char *argv[]) {
         for(j=0; j < storms[i].size; j++) {
 
             /* Get impact energy (expressed in thousandths) */
-            float energy = (float) (storms[i].position_values[((j * 2) + 1)] * 1000);
+            float energy = (float) (storms[i].position_values[((j * 2) + 1)]);
 
             /* Get impact position */
             int position = storms[i].position_values[(j * 2)];
