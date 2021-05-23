@@ -534,6 +534,19 @@ int main(int argc, char *argv[]) {
         // The number of remaining Particles, to be treated, individually, by the last Thread
         int remaining_size_for_last_thread = (layer_size % num_threads);
 
+        // The number of Particles, to be treated, individually, by the last Thread
+        // for the case of the total number of Particles, to be treated,
+        // are not divisible for the number of Threads
+        int layer_size_for_last_thread = (layer_size_per_thread + remaining_size_for_last_thread);
+
+        float local_maximum[num_threads];
+        int local_maximum_position[num_threads];
+
+
+        for(int i=0; i < num_threads; i++) {
+            local_maximum[i] = 0.0f;
+            local_maximum_position[i] = 0;
+        }
 
         /* 4.1. Add impacts energies to layer cells */
         /* For each particle */
@@ -542,7 +555,7 @@ int main(int argc, char *argv[]) {
         // - Number of Threads to be launched, in the Parallel Loop: num_threads
         // - Shared Variables by all the Threads: num_threads, num_positions_in_layer_per_thread
         // - NOTE: This loop is Embarrassingly Parallel and does not have any Loop-Carried Dependencies;
-        #pragma omp parallel for private(thread_id, current_thread, current_particle, current_cell, current_layer) num_threads(num_threads) shared(num_threads, num_particles_per_thread, num_particles_for_last_thread,  layer, layer_size, particles, layer_copy_1, layer_copy_2, layer_copy_3)
+        #pragma omp parallel for private(thread_id, current_thread, current_particle, current_cell, current_layer) num_threads(num_threads) shared(num_threads, num_particles_per_thread, num_particles_for_last_thread,  layer, layer_size, particles, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position)
         for(current_thread = 0; current_thread < num_threads; current_thread++) {
 
             // Set the Private Variable for the ID of the current Thread
@@ -577,7 +590,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
-                /*for(current_layer = 1; current_layer < layer_size_per_thread; current_layer++) {
+                for(current_layer = 1; current_layer < layer_size_per_thread; current_layer++) {
 
                     float last_result = layer[layer_offset + current_layer - 1];
                     int last_result_pos = layer_offset + current_layer - 1;
@@ -593,7 +606,7 @@ int main(int argc, char *argv[]) {
                             local_maximum_position[current_thread] = last_result_pos;
                         }
                     }
-                }*/
+                }
             }
             // If the current Thread's ID belongs to the last Thread
             else {
@@ -618,89 +631,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 // For each Position in Layer to be initialised, individually, in Parallel, by the last Thread
-                /*for (current_layer = 1; current_layer < layer_size_for_last_thread; current_layer++) {
-                    float last_result = layer[layer_offset + current_layer - 1];
-                    int last_result_pos = layer_offset + current_layer - 1;
-                    if(current_layer == 1){
-                        last_result = ((layer_copy_1[((layer_offset + current_layer) - 2)] + layer_copy_2[layer_offset + current_layer-1] + layer_copy_3[((layer_offset + current_layer))]) / 3);
-                    }
-                    float result = ((layer_copy_1[((layer_offset + current_layer) - 1)] + layer_copy_2[layer_offset + current_layer] + layer_copy_3[((layer_offset + current_layer) + 1)]) / 3);
-                    layer[layer_offset + current_layer] = result;
-
-                    if(result < last_result){
-                        if(last_result > local_maximum[current_thread]){
-                            local_maximum[current_thread] = last_result;
-                            local_maximum_position[current_thread] = last_result_pos;
-                        }
-                    }
-                }*/
-            }
-
-        }
-
-
-
-
-
-
-        // The number of Particles, to be treated, individually, by the last Thread
-        // for the case of the total number of Particles, to be treated,
-        // are not divisible for the number of Threads
-        int layer_size_for_last_thread = (layer_size_per_thread + remaining_size_for_last_thread);
-
-        float local_maximum[num_threads];
-        int local_maximum_position[num_threads];
-
-
-        for(int i=0; i < num_threads; i++) {
-            local_maximum[i] = 0.0f;
-            local_maximum_position[i] = 0;
-        }
-
-
-        /* 4.1. Add impacts energies to layer cells */
-        /* For each particle */
-        // Parallel Loop, in OpenMP, for each Thread, individually:
-        // - Private Variables for each Thread: thread_id, current_thread
-        // - Number of Threads to be launched, in the Parallel Loop: num_threads
-        // - Shared Variables by all the Threads: num_threads, num_positions_in_layer_per_thread
-        // - NOTE: This loop is Embarrassingly Parallel and does not have any Loop-Carried Dependencies;
-        #pragma omp parallel for private(thread_id, current_thread) num_threads(num_threads) shared(num_threads, layer_size_per_thread, layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, local_maximum, local_maximum_position)
-        for(current_thread = 0; current_thread < num_threads; current_thread++) {
-
-            // Set the Private Variable for the ID of the current Thread
-            thread_id = omp_get_thread_num();
-
-            // Compute the Offset for the size for the Particles' Pointer
-            int layer_offset = (current_thread * layer_size_per_thread);
-
-            // If the current Thread's ID does not belong to the last Thread
-            if(thread_id < (num_threads - 1)) {
-
-                // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
-                for(int current_layer = 1; current_layer < layer_size_per_thread; current_layer++) {
-                    float last_result = layer[layer_offset + current_layer - 1];
-                    int last_result_pos = layer_offset + current_layer - 1;
-                    if(current_layer == 1){
-                        last_result = ((layer_copy_1[((layer_offset + current_layer) - 2)] + layer_copy_2[layer_offset + current_layer-1] + layer_copy_3[((layer_offset + current_layer))]) / 3);
-                    }
-                    float result = ((layer_copy_1[((layer_offset + current_layer) - 1)] + layer_copy_2[layer_offset + current_layer] + layer_copy_3[((layer_offset + current_layer) + 1)]) / 3);
-                    layer[layer_offset + current_layer] = result;
-
-                    if(result < last_result){
-                        if(last_result > local_maximum[current_thread]){
-                            local_maximum[current_thread] = last_result;
-                            local_maximum_position[current_thread] = last_result_pos;
-                        }
-                    }
-                }
-            }
-            // If the current Thread's ID belongs to the last Thread
-            else {
-
-                // For each Position in Layer to be initialised, individually, in Parallel, by the last Thread
-                for (int current_layer = 1; current_layer < layer_size_for_last_thread; current_layer++) {
-
+                for (current_layer = 1; current_layer < layer_size_for_last_thread; current_layer++) {
                     float last_result = layer[layer_offset + current_layer - 1];
                     int last_result_pos = layer_offset + current_layer - 1;
                     if(current_layer == 1){
@@ -718,7 +649,6 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-
 
     maximum[0] = local_maximum[0];
     positions[0] = local_maximum_position[0];
