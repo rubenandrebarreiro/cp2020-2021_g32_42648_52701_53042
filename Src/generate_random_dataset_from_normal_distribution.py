@@ -85,4 +85,4 @@ def generate_dataset(num_test, initial_num_particles, num_threads_list):
 # Main method
 if __name__ == "__main__":
 
-    generate_dataset(FLAG_TEST, INITIAL_NUM_PARTICLES, NUM_THREADS_LIST)
+    generate_dataset(FLAG_TEST_SET_NUM, INITIAL_NUM_PARTICLES, NUM_THREADS_LIST)
