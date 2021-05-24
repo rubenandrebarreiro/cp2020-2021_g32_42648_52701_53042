@@ -184,6 +184,78 @@ void initiate_layers(float *layer, float *layer_copy_1, float *layer_copy_2, flo
     }
 }
 
+void get_storm_maximum_seq(float *layer, float *layer_copy_1, int layer_size, float *maximum, int *positions, int i){
+
+    /* 4.2.2. Update layer using the ancillary values.
+    Skip updating the first and last positions */
+    for(int k=1; k < (layer_size - 1); k++) {
+
+        layer[k] = ((layer_copy_1[(k - 1)] + layer_copy_1[k] + layer_copy_1[(k + 1)]) / 3);
+
+    }
+
+    /* 4.3. Locate the maximum value in the layer, and its position */
+    for(int k=1; k < (layer_size - 1); k++) {
+
+        /* Check it only if it is a local maximum */
+        if((layer[k] > layer[(k - 1)]) && (layer[k] > layer[(k + 1)])) {
+
+            if(layer[k] > maximum[i]) {
+
+                maximum[i] = layer[k];
+                positions[i] = k;
+
+            }
+
+        }
+    }
+}
+
+void get_storm_maximum_par(float *layer, float *layer_copy_1, float *layer_copy_2, float *layer_copy_3, float *local_maximum, int *local_maximum_position, int layer_size_per_thread, int layer_offset, int current_thread, int thread_id, int num_threads){
+
+
+    // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
+    for(int current_layer = 1; current_layer < layer_size_per_thread; current_layer++) {
+
+        int index = layer_offset + current_layer;
+        float last_result = layer[index - 1];
+
+        if(current_layer == 1 && thread_id != 0 && thread_id < (num_threads - 1)){
+            last_result = ((layer_copy_1[(index- 2)] + layer_copy_2[index - 1] + layer_copy_3[index]) / 3);
+        }
+        float result = ((layer_copy_1[(index- 1)] + layer_copy_2[index] + layer_copy_3[(index+ 1)]) / 3);
+        layer[index] = result;
+
+        if(result < last_result){
+            if(last_result > local_maximum[current_thread]){
+                local_maximum[current_thread] = last_result;
+                local_maximum_position[current_thread] = index - 1;
+            }
+        }
+    }
+}
+
+void check_medium_maximum_seq(float *layer, float *layer_copy_1, float *layer_copy_2, float *layer_copy_3, float *maximum, float *local_maximum, int *positions, int *local_maximum_position, int layer_size_per_thread, int num_threads){
+
+    maximum[0] = local_maximum[0];
+    positions[0] = local_maximum_position[0];
+
+    for(int current_thread = 1; current_thread < num_threads; current_thread++){
+        int offset = current_thread * layer_size_per_thread;
+        float result = ((layer_copy_1[(offset)-1] + layer_copy_2[offset] + layer_copy_3[(offset)+1]) / 3);
+        if(result > maximum[0]){
+            maximum[0] = result;
+            positions[0] = offset;
+        }
+        if(local_maximum[current_thread] > maximum[0]){
+            maximum[0] = local_maximum[current_thread];
+            positions[0] = local_maximum_position[current_thread];
+        }
+    }
+}
+
+
+
 /*
  * MAIN PROGRAM
  */
@@ -345,7 +417,7 @@ int main(int argc, char *argv[]) {
                         for(int current_particle = 0; current_particle < storms[current_storm].size; current_particle++) {
 
                             /* Get impact energy (expressed in thousandths) */
-                            float energy = (float) (storms[(storm_offset + current_storm)].position_values[((current_particle * 2) + 1)] * 1000);
+                            float energy = (float) (storms[(storm_offset + current_storm)].position_values[((current_particle * 2) + 1)]);
 
                             /* Get impact position */
                             int position = storms[current_storm].position_values[(current_particle * 2)];
@@ -360,30 +432,7 @@ int main(int argc, char *argv[]) {
 
                         }
 
-                         /* 4.2.2. Update layer using the ancillary values.
-                         Skip updating the first and last positions */
-                        for(k=1; k < (layer_size - 1); k++) {
-
-                            layer[k] = ((layer_copy_1[(k - 1)] + layer_copy_1[k] + layer_copy_1[(k + 1)]) / 3);
-
-                        }
-
-                        /* 4.3. Locate the maximum value in the layer, and its position */
-                        for(k=1; k < (layer_size - 1); k++) {
-
-                            /* Check it only if it is a local maximum */
-                            if((layer[k] > layer[(k - 1)]) && (layer[k] > layer[(k + 1)])) {
-
-                                if(layer[k] > maximum[i]) {
-
-                                    maximum[i] = layer[k];
-                                    positions[i] = k;
-
-                                }
-
-                            }
-
-                        }
+                         get_storm_maximum_seq(layer, layer_copy_1, layer_size, maximum, positions, current_thread);
 
                     }
 
@@ -398,7 +447,7 @@ int main(int argc, char *argv[]) {
                         for(int current_particle = 0; current_particle < storms[current_storm].size; current_particle++) {
 
                             /* Get impact energy (expressed in thousandths) */
-                            float energy = (float) (storms[(storm_offset + current_storm)].position_values[((current_particle * 2) + 1)] * 1000);
+                            float energy = (float) (storms[(storm_offset + current_storm)].position_values[((current_particle * 2) + 1)]);
 
                             /* Get impact position */
                             int position = storms[current_storm].position_values[(current_particle * 2)];
@@ -410,38 +459,13 @@ int main(int argc, char *argv[]) {
                                 update(layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, current_cell, position, energy);
 
                             }
-
                         }
 
-                         /* 4.2.2. Update layer using the ancillary values.
-                         Skip updating the first and last positions */
-                        for(k=1; k < (layer_size - 1); k++) {
+                        get_storm_maximum_seq(layer, layer_copy_1, layer_size, maximum, positions, current_thread);
 
-                            layer[k] = ((layer_copy_1[(k - 1)] + layer_copy_1[k] + layer_copy_1[(k + 1)]) / 3);
-
-                        }
-                        /* 4.3. Locate the maximum value in the layer, and its position */
-                        for(k=1; k < (layer_size - 1); k++) {
-
-                            /* Check it only if it is a local maximum */
-                            if((layer[k] > layer[(k - 1)]) && (layer[k] > layer[(k + 1)])) {
-
-                                if(layer[k] > maximum[i]) {
-
-                                    maximum[i] = layer[k];
-                                    positions[i] = k;
-
-                                }
-
-                            }
-
-                        }
                     }
-
                 }
-
             }
-
         }
         // If it is given less number of
         // Storm Files than the given number of Threads:
@@ -456,7 +480,7 @@ int main(int argc, char *argv[]) {
                 for(j = 0; j < storms[i].size; j++) {
 
                     /* Get impact energy (expressed in thousandths) */
-                    float energy = (float) (storms[i].position_values[((j * 2) + 1)] * 1000);
+                    float energy = (float) (storms[i].position_values[((j * 2) + 1)]);
 
                     /* Get impact position */
                     int position = storms[i].position_values[(j * 2)];
@@ -468,40 +492,14 @@ int main(int argc, char *argv[]) {
                         update(layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, k, position, energy);
 
                     }
-
                 }
 
-
-                /* 4.2.2. Update layer using the ancillary values.
-                          Skip updating the first and last positions */
-                for(k=1; k < (layer_size - 1); k++) {
-
-                    layer[k] = ((layer_copy_1[(k - 1)] + layer_copy_1[k] + layer_copy_1[(k + 1)]) / 3);
-
-                }
-
-                /* 4.3. Locate the maximum value in the layer, and its position */
-                for(k=1; k < (layer_size - 1); k++) {
-
-                    /* Check it only if it is a local maximum */
-                    if((layer[k] > layer[(k - 1)]) && (layer[k] > layer[(k + 1)])) {
-
-                        if(layer[k] > maximum[i]) {
-
-                            maximum[i] = layer[k];
-                            positions[i] = k;
-
-                        }
-
-                    }
-
-                }
+                get_storm_maximum_seq(layer, layer_copy_1, layer_size, maximum, positions, current_thread);
 
             }
-
         }
-
     }
+
     /* If it is given only one one Storm File */
     else {
 
@@ -582,27 +580,9 @@ int main(int argc, char *argv[]) {
                         update(layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, current_cell, position, energy);
 
                     }
-
                 }
 
-                // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
-                for(current_layer = 1; current_layer < layer_size_per_thread; current_layer++) {
-
-                    float last_result = layer[layer_offset + current_layer - 1];
-                    int last_result_pos = layer_offset + current_layer - 1;
-                    if(current_layer == 1){
-                        last_result = ((layer_copy_1[((layer_offset + current_layer) - 2)] + layer_copy_2[layer_offset + current_layer-1] + layer_copy_3[((layer_offset + current_layer))]) / 3);
-                    }
-                    float result = ((layer_copy_1[((layer_offset + current_layer) - 1)] + layer_copy_2[layer_offset + current_layer] + layer_copy_3[((layer_offset + current_layer) + 1)]) / 3);
-                    layer[layer_offset + current_layer] = result;
-
-                    if(result < last_result){
-                        if(last_result > local_maximum[current_thread]){
-                            local_maximum[current_thread] = last_result;
-                            local_maximum_position[current_thread] = last_result_pos;
-                        }
-                    }
-                }
+                get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
             }
             // If the current Thread's ID belongs to the last Thread
             else {
@@ -623,43 +603,16 @@ int main(int argc, char *argv[]) {
                         update(layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, current_cell, position, energy);
 
                     }
-
                 }
 
-                // For each Position in Layer to be initialised, individually, in Parallel, by the last Thread
-                for (current_layer = 1; current_layer < layer_size_for_last_thread; current_layer++) {
-                    float last_result = layer[layer_offset + current_layer - 1];
-                    int last_result_pos = layer_offset + current_layer - 1;
-                    if(current_layer == 1){
-                        last_result = ((layer_copy_1[((layer_offset + current_layer) - 2)] + layer_copy_2[layer_offset + current_layer-1] + layer_copy_3[((layer_offset + current_layer))]) / 3);
-                    }
-                    float result = ((layer_copy_1[((layer_offset + current_layer) - 1)] + layer_copy_2[layer_offset + current_layer] + layer_copy_3[((layer_offset + current_layer) + 1)]) / 3);
-                    layer[layer_offset + current_layer] = result;
+                get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
 
-                    if(result < last_result){
-                        if(last_result > local_maximum[current_thread]){
-                            local_maximum[current_thread] = last_result;
-                            local_maximum_position[current_thread] = last_result_pos;
-                        }
-                    }
-                }
             }
         }
 
-    maximum[0] = local_maximum[0];
-    positions[0] = local_maximum_position[0];
-    for(int current_thread = 1; current_thread < num_threads; current_thread++){
-        int offset = current_thread * layer_size_per_thread;
-        float result = ((layer_copy_1[(offset)-1] + layer_copy_2[offset] + layer_copy_3[(offset)+1]) / 3);
-        if(result > maximum[0]){
-            maximum[0] = result;
-            positions[0] = offset;
-        }
-        if(local_maximum[current_thread] > maximum[0]){
-            maximum[0] = local_maximum[current_thread];
-            positions[0] = local_maximum_position[current_thread];
-        }
-    }
+   check_medium_maximum_seq(layer, layer_copy_1, layer_copy_2, layer_copy_3, maximum, local_maximum, positions, local_maximum_position, layer_size_per_thread, num_threads);
+
+
 }
 
     /* END: Do NOT optimize/parallelize the code below this point */
