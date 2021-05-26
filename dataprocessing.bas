@@ -85,23 +85,9 @@ Cells(paralleWork + 2, locationAvgCol + 6) = "12 threads"
 
 Dim serialWork As Integer
 serialWork = locationAvgRow + (tests * 6) + 12
-Cells(serialWork + 2, locationAvgCol) = "sequential"
-Cells(serialWork + 2, locationAvgCol + 1) = "1 thread"
-Cells(serialWork + 2, locationAvgCol + 2) = "2 threads"
-Cells(serialWork + 2, locationAvgCol + 3) = "4 threads"
-Cells(serialWork + 2, locationAvgCol + 4) = "6 threads"
-Cells(serialWork + 2, locationAvgCol + 5) = "8 threads"
-Cells(serialWork + 2, locationAvgCol + 6) = "12 threads"
 
-Dim serialWorkminus As Integer
-serialWorkminus = locationAvgRow + (tests * 7) + 14
-Cells(serialWorkminus + 2, locationAvgCol) = "sequential"
-Cells(serialWorkminus + 2, locationAvgCol + 1) = "1 thread"
-Cells(serialWorkminus + 2, locationAvgCol + 2) = "2 threads"
-Cells(serialWorkminus + 2, locationAvgCol + 3) = "4 threads"
-Cells(serialWorkminus + 2, locationAvgCol + 4) = "6 threads"
-Cells(serialWorkminus + 2, locationAvgCol + 5) = "8 threads"
-Cells(serialWorkminus + 2, locationAvgCol + 6) = "12 threads"
+
+
 
 
 
@@ -123,7 +109,7 @@ For Col = myCell.Column To myCell.Column + numberOfColumns - 1
         Next
         SumStd = Sqr(SumStd / executions)
         Cells(locationStdRow + numberOfTests + 1, myCell.Column + numberOfColumns + Col - 1).Value = SumStd
-        
+
         Dim AverageBasedOnStd As Double
         Dim counter As Integer
         AverageBasedOnStd = 0
@@ -139,7 +125,7 @@ For Col = myCell.Column To myCell.Column + numberOfColumns - 1
         Next
         AverageBasedOnStd = AverageBasedOnStd / counter
         Cells(locationNewAvgRow + numberOfTests + 1, myCell.Column + numberOfColumns + Col - 1).Value = AverageBasedOnStd
-    
+
     Next
 Next
 
@@ -174,18 +160,16 @@ Next
 
 For Col = 1 To numberOfColumns - 2
     For Row = 1 To tests
-        Dim serialWork1
+        Dim serialWork1 As Double
+        Dim serialWork2 As Double
         serialWork1 = Abs(Cells(locationSpeedUp + Row + 1, locationAvgCol + Col + 1).Value - 1)
-        Cells(serialWork + Row + 2, locationAvgCol + Col + 1).Value = serialWork1
+        serialWork2 = 1 - serialWork1
+        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3)).Value = serialWork1
+        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3) + 1).Value = serialWork2
     Next
 Next
 
-For Col = 1 To numberOfColumns - 2
-    For Row = 1 To tests
-        MsgBox Cells(serialWork + Row + 2, locationAvgCol + Col + 1).Value
-        Cells(serialWorkminus + Row + 2, locationAvgCol + Col + 1).Value = (1 - Cells(serialWork + Row + 2, locationAvgCol + Col + 1).Value)
-    Next
-Next
+
 
 
 End Sub
