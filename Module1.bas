@@ -84,6 +84,13 @@ Cells(paralleWork + 2, locationAvgCol + 4) = "6 threads"
 Cells(paralleWork + 2, locationAvgCol + 5) = "8 threads"
 Cells(paralleWork + 2, locationAvgCol + 6) = "12 threads"
 
+Dim serialWork As Integer
+serialWork = locationAvgRow + (tests * 6) + 12
+
+
+
+
+
 
 For Col = myCell.Column To myCell.Column + numberOfColumns - 1
     For numberOfTests = 0 To tests - 1
@@ -103,7 +110,7 @@ For Col = myCell.Column To myCell.Column + numberOfColumns - 1
         Next
         SumStd = Sqr(SumStd / executions)
         Cells(locationStdRow + numberOfTests + 1, myCell.Column + numberOfColumns + Col - 1).Value = SumStd
-        
+
         Dim AverageBasedOnStd As Double
         Dim counter As Integer
         AverageBasedOnStd = 0
@@ -119,7 +126,7 @@ For Col = myCell.Column To myCell.Column + numberOfColumns - 1
         Next
         AverageBasedOnStd = AverageBasedOnStd / counter
         Cells(locationNewAvgRow + numberOfTests + 1, myCell.Column + numberOfColumns + Col - 1).Value = AverageBasedOnStd
-    
+
     Next
 Next
 
@@ -152,6 +159,19 @@ For Col = 1 To numberOfColumns - 2
     Next
 Next
 
+For Col = 1 To numberOfColumns - 2
+    For Row = 1 To tests
+        Dim serialWork1 As Double
+        Dim serialWork2 As Double
+        serialWork1 = Abs(Cells(locationSpeedUp + Row + 1, locationAvgCol + Col + 1).Value - 1)
+        serialWork2 = 1 - serialWork1
+        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3)).Value = serialWork1
+        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3) + 1).Value = serialWork2
+    Next
+Next
+
+
+
 
 End Sub
 
@@ -165,18 +185,28 @@ For i = 8 To NumRows
 Next
 End Sub
 
-Sub createSpeedupChart()
+Sub createCharts()
 Dim SpeedupChart As ChartObject
 Dim EfficiencyChart As ChartObject
-Dim WorkPercentChart As ChartObject
+Dim WorkPercentChart1 As ChartObject
+Dim WorkPercentChart2 As ChartObject
+Dim WorkPercentChart3 As ChartObject
+Dim WorkPercentChart4 As ChartObject
+Dim WorkPercentChart5 As ChartObject
+
+
 Set SpeedupChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
 Set EfficiencyChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set WorkPercentChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
+Set WorkPercentChart1 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
+Set WorkPercentChart2 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
+Set WorkPercentChart3 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
+Set WorkPercentChart4 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
+Set WorkPercentChart5 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
 
 End Sub
 
 Sub SpeedupChart()
-createSpeedupChart
+createCharts
 
 ActiveSheet.ChartObjects(1).Activate
 With ActiveChart
@@ -194,7 +224,7 @@ End With
 End Sub
 
 Sub EfficiencyChart()
-createSpeedupChart
+createCharts
 ActiveSheet.ChartObjects(2).Activate
 With ActiveChart
  .HasTitle = True
@@ -212,18 +242,70 @@ End With
 End Sub
 
 Sub WorkPercentChart()
-createSpeedupChart
+createCharts
 ActiveSheet.ChartObjects(3).Activate
 With ActiveChart
- .HasTitle = True
- .ChartType = xlColumnClustered
- .SetSourceData Source:=Range("'test-1'!$N$52:$R$58")
- .SeriesCollection(1).Name = "2 Threads"
- .SeriesCollection(2).Name = "4 Threads"
- .SeriesCollection(3).Name = "6 Threads"
- .SeriesCollection(4).Name = "8 Threads"
- .SeriesCollection(5).Name = "12 Threads"
- .ChartTitle.Text = "Work Percentage"
+    .HasTitle = True
+    .ChartType = xlColumnStacked
+    .SetSourceData Source:=Range("'test-1'!$O$61:$P$67")
+    .SeriesCollection(1).Name = "Serial Work"
+    .SeriesCollection(2).Name = "Parallel Work"
+    .ChartTitle.Text = "Work Percentage"
+End With
+
+
+
+'-----------2nd Chart--------------'
+
+ActiveSheet.ChartObjects(4).Activate
+With ActiveChart
+    .HasTitle = True
+    .ChartType = xlColumnStacked
+    .SetSourceData Source:=Range("'test-1'!$R$61:$S$67")
+    .SeriesCollection(1).Name = "Serial Work"
+    .SeriesCollection(2).Name = "Parallel Work"
+    .ChartTitle.Text = "Work Percentage"
+End With
+
+
+'-----------3rd Chart--------------'
+
+ActiveSheet.ChartObjects(5).Activate
+With ActiveChart
+    .HasTitle = True
+    .ChartType = xlColumnStacked
+    .SetSourceData Source:=Range("'test-1'!$U$61:$V$67")
+    .SeriesCollection(1).Name = "Serial Work"
+    .SeriesCollection(2).Name = "Parallel Work"
+    .ChartTitle.Text = "Work Percentage"
+End With
+
+
+
+'-----------4th Chart--------------'
+
+ActiveSheet.ChartObjects(6).Activate
+With ActiveChart
+    .HasTitle = True
+    .ChartType = xlColumnStacked
+    .SetSourceData Source:=Range("'test-1'!$X$61:$Y$67")
+    .SeriesCollection(1).Name = "Serial Work"
+    .SeriesCollection(2).Name = "Parallel Work"
+    .ChartTitle.Text = "Work Percentage"
+End With
+
+
+
+'-----------5th Chart--------------'
+
+ActiveSheet.ChartObjects(7).Activate
+With ActiveChart
+    .HasTitle = True
+    .ChartType = xlColumnStacked
+    .SetSourceData Source:=Range("'test-1'!AA$61:$AB$67")
+    .SeriesCollection(1).Name = "Serial Work"
+    .SeriesCollection(2).Name = "Parallel Work"
+    .ChartTitle.Text = "Work Percentage"
 End With
 
 
