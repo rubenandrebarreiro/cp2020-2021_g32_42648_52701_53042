@@ -582,7 +582,7 @@ int main(int argc, char *argv[]) {
                     }
                 }
 
-                get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
+                //get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
             }
             // If the current Thread's ID belongs to the last Thread
             else {
@@ -605,15 +605,70 @@ int main(int argc, char *argv[]) {
                     }
                 }
 
+                //get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
+
+            }
+        }
+
+   //check_medium_maximum_seq(layer, layer_copy_1, layer_copy_2, layer_copy_3, maximum, local_maximum, positions, local_maximum_position, layer_size_per_thread, num_threads);
+
+ // The number of Particles, to be treated, individually, by each Thread
+        layer_size_per_thread = (layer_size / num_threads);
+
+        // The number of remaining Particles, to be treated, individually, by the last Thread
+        remaining_size_for_last_thread = (layer_size % num_threads);
+
+        // The number of Particles, to be treated, individually, by the last Thread
+        // for the case of the total number of Particles, to be treated,
+        // are not divisible for the number of Threads
+        layer_size_for_last_thread = (layer_size_per_thread + remaining_size_for_last_thread);
+
+        local_maximum[num_threads];
+        local_maximum_position[num_threads];
+
+
+        for(int i=0; i < num_threads; i++) {
+            local_maximum[i] = 0.0f;
+            local_maximum_position[i] = 0;
+        }
+
+
+        /* 4.1. Add impacts energies to layer cells */
+        /* For each particle */
+        // Parallel Loop, in OpenMP, for each Thread, individually:
+        // - Private Variables for each Thread: thread_id, current_thread
+        // - Number of Threads to be launched, in the Parallel Loop: num_threads
+        // - Shared Variables by all the Threads: num_threads, num_positions_in_layer_per_thread
+        // - NOTE: This loop is Embarrassingly Parallel and does not have any Loop-Carried Dependencies;
+        #pragma omp parallel for private(thread_id, current_thread) num_threads(num_threads) shared(num_threads, layer_size_per_thread, layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, local_maximum, local_maximum_position)
+        for(current_thread = 0; current_thread < num_threads; current_thread++) {
+
+            // Set the Private Variable for the ID of the current Thread
+            thread_id = omp_get_thread_num();
+
+            // Compute the Offset for the size for the Particles' Pointer
+            int layer_offset = (current_thread * layer_size_per_thread);
+
+            // If the current Thread's ID does not belong to the last Thread
+            if(thread_id < (num_threads - 1)) {
+
+                get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
+
+            }
+            // If the current Thread's ID belongs to the last Thread
+            else {
+
                 get_storm_maximum_par(layer, layer_copy_1, layer_copy_2, layer_copy_3, local_maximum, local_maximum_position, layer_size_per_thread, layer_offset, current_thread, thread_id, num_threads);
 
             }
         }
 
-   check_medium_maximum_seq(layer, layer_copy_1, layer_copy_2, layer_copy_3, maximum, local_maximum, positions, local_maximum_position, layer_size_per_thread, num_threads);
+        check_medium_maximum_seq(layer, layer_copy_1, layer_copy_2, layer_copy_3, maximum, local_maximum, positions, local_maximum_position, layer_size_per_thread, num_threads);
+
+    }
 
 
-}
+
 
     /* END: Do NOT optimize/parallelize the code below this point */
 

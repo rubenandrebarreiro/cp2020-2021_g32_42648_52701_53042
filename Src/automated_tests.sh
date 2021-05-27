@@ -122,7 +122,7 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
 
   for NUM_CONTROL_POINTS in $NUM_CONTROL_POINTS_LIST; do
     for NUM_EXEC in $(seq 1 $NUM_EXECS); do
-      (time ./energy_storms_seq "$NUM_CONTROL_POINTS" "${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}") > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
+      (time ./energy_storms_se "$NUM_CONTROL_POINTS" "${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}") > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
       while IFS= read -r LINE
       do
         if [[ "$LINE" == *"Time: "* ]]
