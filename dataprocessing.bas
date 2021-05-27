@@ -85,10 +85,13 @@ Cells(paralleWork + 2, locationAvgCol + 6) = "12 threads"
 
 Dim serialWork As Integer
 serialWork = locationAvgRow + (tests * 6) + 12
-
-
-
-
+Cells(serialWork + 2, locationAvgCol) = "sequential"
+Cells(serialWork + 2, locationAvgCol + 1) = "1 thread"
+Cells(serialWork + 2, locationAvgCol + 2) = "2 threads"
+Cells(serialWork + 2, locationAvgCol + 3) = "4 threads"
+Cells(serialWork + 2, locationAvgCol + 4) = "6 threads"
+Cells(serialWork + 2, locationAvgCol + 5) = "8 threads"
+Cells(serialWork + 2, locationAvgCol + 6) = "12 threads"
 
 
 For Col = myCell.Column To myCell.Column + numberOfColumns - 1
@@ -127,6 +130,7 @@ For Col = myCell.Column To myCell.Column + numberOfColumns - 1
         Cells(locationNewAvgRow + numberOfTests + 1, myCell.Column + numberOfColumns + Col - 1).Value = AverageBasedOnStd
 
     Next
+
 Next
 
 
@@ -155,6 +159,7 @@ For Col = 1 To numberOfColumns - 2
         overSpeedup = (1 / Cells(locationSpeedUp + Row + 1, locationAvgCol + Col + 1).Value) - 1
         overThreads = (1 / List(Col)) - 1
         Cells(paralleWork + Row + 2, locationAvgCol + Col + 1).Value = (overSpeedup / overThreads)
+
     Next
 Next
 
@@ -162,13 +167,12 @@ For Col = 1 To numberOfColumns - 2
     For Row = 1 To tests
         Dim serialWork1 As Double
         Dim serialWork2 As Double
-        serialWork1 = Abs(Cells(locationSpeedUp + Row + 1, locationAvgCol + Col + 1).Value - 1)
-        serialWork2 = 1 - serialWork1
-        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3)).Value = serialWork1
-        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3) + 1).Value = serialWork2
+        serialWork1 = Abs(Cells(paralleWork + Row + 2, locationAvgCol + Col + 1).Value)
+        serialWork2 = Abs(1 - serialWork1)
+        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3)).Value = serialWork2
+        Cells(serialWork + Row + 2, locationAvgCol + (Col * 3) + 1).Value = serialWork1
     Next
 Next
-
 
 
 
