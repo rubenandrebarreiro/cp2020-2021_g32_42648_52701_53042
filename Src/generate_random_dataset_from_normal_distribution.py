@@ -8,6 +8,8 @@
 # Instructors:
 # - Joao Manuel Lourenco
 
+# Import Python's Libraries
+
 # Import the NumPy Python's Library, with the numpy alias
 import numpy as numpy
 
@@ -16,7 +18,7 @@ import numpy as numpy
 from scipy.stats import truncnorm
 
 # The Root for the Test Files
-TEST_FILES_ROOT = "Src/test_files"
+TEST_FILES_ROOT = "test_files"
 
 # The Lower Bound for the Interval of Values,
 # on the Samples of randomly generated Positions
@@ -39,13 +41,13 @@ UPPER_BOUND_ENERGIES = 250
 DIMINUTIVE_1K = 1000
 
 # The list of the Flags for the Tests' Sets
-FLAG_TEST_SET_NUM_LIST = ["01"]
+FLAG_TEST_SET_NUM_LIST = ["02"]
 
 # The Flag for the Test Set chosen
 FLAG_TEST_SET_NUM = FLAG_TEST_SET_NUM_LIST[0]
 
 # The number of Initial Particles (for T1)
-INITIAL_NUM_PARTICLES = 10000
+INITIAL_NUM_PARTICLES = 100000
 
 # The list of the number of Threads to be used
 NUM_THREADS_LIST = [1, 2, 4, 6, 8, 12]
@@ -105,6 +107,8 @@ def generate_dataset(num_test, initial_num_particles, num_threads_list):
         filename = "{}/scaled_test_{}_a{}k_p{}k".format(TEST_FILES_ROOT, num_test,
                                                         positions_diminutive_1k_upper_bound,
                                                         num_particles_diminutive_1k)
+        # Print some debug information
+        print("\n\nGenerating: {} ...\n".format(filename))
 
         # Open the file and creates it, if it does not exist
         file = open(filename, "w")
@@ -121,6 +125,9 @@ def generate_dataset(num_test, initial_num_particles, num_threads_list):
 
         # Close the file
         file.close()
+
+        # Print some debug information
+        print("Generated finished: {} ...\n".format(filename))
 
 
 # Main method
