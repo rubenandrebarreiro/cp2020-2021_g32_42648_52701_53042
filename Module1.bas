@@ -195,13 +195,13 @@ Dim WorkPercentChart4 As ChartObject
 Dim WorkPercentChart5 As ChartObject
 
 
-Set SpeedupChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set EfficiencyChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set WorkPercentChart1 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set WorkPercentChart2 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set WorkPercentChart3 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set WorkPercentChart4 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
-Set WorkPercentChart5 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=5, Height:=5)
+Set SpeedupChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
+Set EfficiencyChart = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
+Set WorkPercentChart1 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
+Set WorkPercentChart2 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
+Set WorkPercentChart3 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
+Set WorkPercentChart4 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
+Set WorkPercentChart5 = ActiveSheet.ChartObjects.Add(Top:=0, Left:=0, Width:=15, Height:=15)
 
 End Sub
 
