@@ -23,7 +23,6 @@ FILE_NAMES_EXEC_LIST_TEST_01_1=("test_files/test_01_a35_p5_w3"
                                 "test_files/test_01_a35_p8_w1"
                                 "test_files/test_01_a35_p8_w4")
 
-
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_01_2=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2"
                                 "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w1"
@@ -41,11 +40,13 @@ FILE_NAMES_EXEC_LIST_TEST_01_3=("test_files/test_01_a35_p5_w3 test_files/test_01
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_01_4=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4")
 
+FILE_NAMES_EXEC_LIST_TEST_02_1=("test_files/test_02_a30k_p20k_w1")
+
 # shellcheck disable=SC2034
 NUM_CONTROL_POINTS_LIST_TEST_01_1="1000 10000 100000 1000000 10000000 100000000 500000000"
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_2="10 50 100 500 1000"
+NUM_CONTROL_POINTS_LIST_TEST_02_1="1000 10000 100000 500000"
 
 # shellcheck disable=SC2034
 NUM_CONTROL_POINTS_LIST_TEST_3="1000 10000 100000 1000000 10000000 100000000 1000000000"
@@ -68,11 +69,11 @@ NUM_CONTROL_POINTS_LIST_TEST_8="10 50 100"
 # shellcheck disable=SC2034
 NUM_CONTROL_POINTS_LIST_TEST_9="1000 10000 100000 1000000 10000000 100000000 1000000000"
 
-FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_01_1[@]}")
-NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_01_1
+FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_02_1[@]}")
+NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_02_1
 
 TEST_SET_NUM="01_1"
-NUM_THREADS_LIST="1 2 4 6 8 12"
+NUM_THREADS_LIST="1 2 4 6 8 12 16 32 64"
 
 NUM_EXECS="10"
 
