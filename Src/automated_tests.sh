@@ -16,7 +16,6 @@ DEBUG_RECORDS=true
 # The Boolean Flag for the Exhaustive Extraction of Metrics
 EXHAUSTIVE_METRICS=false
 
-# Test 01.1 - Tested for Sequential Version(s)
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_01_1=("test_files/test_01_a35_p5_w3"
                                 "test_files/test_01_a35_p7_w2"
@@ -24,56 +23,89 @@ FILE_NAMES_EXEC_LIST_TEST_01_1=("test_files/test_01_a35_p5_w3"
                                 "test_files/test_01_a35_p8_w4")
 
 # shellcheck disable=SC2034
-FILE_NAMES_EXEC_LIST_TEST_01_2=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2"
-                                "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w1"
-                                "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p5_w4"
-                                "test_files/test_01_a35_p7_w2 test_files/test_01_a35_p5_w1"
-                                "test_files/test_01_a35_p7_w2 test_files/test_01_a35_p5_w4"
-                                "test_files/test_01_a35_p5_w1 test_files/test_01_a35_p5_w4")
-
-# shellcheck disable=SC2034
-FILE_NAMES_EXEC_LIST_TEST_01_3=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w1"
+FILE_NAMES_EXEC_LIST_TEST_01_2=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w1"
                                 "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w4"
                                 "test_files/test_01_a35_p5_w3 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4"
                                 "test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4")
 
 # shellcheck disable=SC2034
-FILE_NAMES_EXEC_LIST_TEST_01_4=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w1 test_files/test_01_a35_p8_w4")
-
-FILE_NAMES_EXEC_LIST_TEST_02_1=("test_files/test_02_a30k_p20k_w1")
-
-# shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_01_1="1000 10000 100000 1000000 10000000 100000000 500000000"
+FILE_NAMES_EXEC_LIST_TEST_02_1=("test_files/test_02_a30k_p20k_w1"
+                                "test_files/test_02_a30k_p20k_w4")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_02_1="1000 10000 100000 500000"
+FILE_NAMES_EXEC_LIST_TEST_02_2=("test_files/test_02_a30k_p20k_w1 test_files/test_02_a30k_p20k_w6")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_3="1000 10000 100000 1000000 10000000 100000000 1000000000"
+FILE_NAMES_EXEC_LIST_TEST_03_1=("test_files/test_03_a20_p4_w1")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_4="1000 10000 100000 1000000 10000000 100000000 1000000000"
+FILE_NAMES_EXEC_LIST_TEST_04_1=("test_files/test_04_a20_p4_w1")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_5="1000 10000 100000 1000000 10000000 100000000 1000000000"
+FILE_NAMES_EXEC_LIST_TEST_05_1=("test_files/test_05_a20_p4_w1")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_6="1000 10000 100000 1000000 10000000 100000000 1000000000"
+FILE_NAMES_EXEC_LIST_TEST_06_1=("test_files/test_06_a20_p4_w1")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_7="10 50 100"
+FILE_NAMES_EXEC_LIST_TEST_03_04_05_06_1=("test_files/test_03_a20_p4_w1 test_files/test_04_a20_p4_w1 test_files/test_05_a20_p4_w1 test_files/test_06_a20_p4_w1")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_8="10 50 100"
+FILE_NAMES_EXEC_LIST_TEST_07_1=("test_files/test_07_a1M_p5k_w1"
+                                "test_files/test_07_a1M_p5k_w2"
+                                "test_files/test_07_a1M_p5k_w3"
+                                "test_files/test_07_a1M_p5k_w4")
 
 # shellcheck disable=SC2034
-NUM_CONTROL_POINTS_LIST_TEST_9="1000 10000 100000 1000000 10000000 100000000 1000000000"
+FILE_NAMES_EXEC_LIST_TEST_07_2=("test_files/test_07_a1M_p5k_w1 test_files/test_07_a1M_p5k_w2"
+                                "test_files/test_07_a1M_p5k_w3 test_files/test_07_a1M_p5k_w4")
 
-FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_02_1[@]}")
-NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_02_1
+# shellcheck disable=SC2034
+FILE_NAMES_EXEC_LIST_TEST_08_1=("test_files/test_08_a100M_p1_w1"
+                                "test_files/test_08_a100M_p1_w2"
+                                "test_files/test_08_a100M_p1_w3")
 
-TEST_SET_NUM="01_1"
-NUM_THREADS_LIST="1 2 4 6 8 12 16 32 64"
+# shellcheck disable=SC2034
+FILE_NAMES_EXEC_LIST_TEST_08_2=("test_files/test_08_a100M_p1_w1 test_files/test_08_a100M_p1_w3")
+
+# shellcheck disable=SC2034
+FILE_NAMES_EXEC_LIST_TEST_09_1=("test_files/test_09_a16-17_p3_w1")
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_01="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_02="1000 10000 100000 500000 1000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_03="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_04="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_05="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_06="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_03_04_05_06="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_07="1000 10000 100000 500000 1000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_08="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+# shellcheck disable=SC2034
+NUM_CONTROL_POINTS_LIST_TEST_09="1000 10000 100000 1000000 10000000 100000000 500000000"
+
+FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_09_1[@]}")
+NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_09
+
+TEST_SET_NUM="09_1"
+NUM_THREADS_LIST="1 2 4 6 8 12"
 
 NUM_EXECS="10"
 
@@ -145,7 +177,8 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
       for NUM_EXEC in $(seq 1 $NUM_EXECS); do
 
         # Call of the Sequential Version
-        (time ./energy_storms_seq "$NUM_CONTROL_POINTS" "${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}") > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
+        # shellcheck disable=SC2086
+        (time ./energy_storms_seq "$NUM_CONTROL_POINTS" ${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}) > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
 
         # If it is there still some line to be read
         while IFS= read -r LINE
@@ -203,7 +236,8 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
 
         # Call of the Parallel Versions
         for NUM_THREADS in $NUM_THREADS_LIST; do
-          (time ./energy_storms_omp "$NUM_THREADS" "$NUM_CONTROL_POINTS" "${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}") > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
+          # shellcheck disable=SC2086
+          (time ./energy_storms_omp "$NUM_THREADS" "$NUM_CONTROL_POINTS" ${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}) > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
 
           # If it is there still some line to be read
           while IFS= read -r LINE
@@ -311,7 +345,8 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
       for NUM_EXEC in $(seq 1 $NUM_EXECS); do
 
         # Call of the Sequential Version
-        (time ./energy_storms_seq "$NUM_CONTROL_POINTS" "${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}") > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
+        # shellcheck disable=SC2086
+        (time ./energy_storms_seq "$NUM_CONTROL_POINTS" ${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}) > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
 
         # If it is there still some line to be read
         while IFS= read -r LINE
@@ -351,7 +386,8 @@ for CURRENT_NUM_TEST in $(seq 1 "${#FILE_NAMES_EXEC_LIST[@]}"); do
 
         # Call of the Parallel Versions
         for NUM_THREADS in $NUM_THREADS_LIST; do
-          (time ./energy_storms_omp "$NUM_THREADS" "$NUM_CONTROL_POINTS" "${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}") > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
+          # shellcheck disable=SC2086
+          (time ./energy_storms_omp "$NUM_THREADS" "$NUM_CONTROL_POINTS" ${FILE_NAMES_EXEC_LIST[CURRENT_NUM_TEST - 1]}) > results_test_files/test_set_"$TEST_SET_NUM"/temporary_energy_storms_results.csv 2>&1
 
           # If it is there still some line to be read
           while IFS= read -r LINE
