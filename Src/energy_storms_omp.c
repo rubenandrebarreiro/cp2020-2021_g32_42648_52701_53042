@@ -308,7 +308,7 @@ int main(int argc, char *argv[]) {
             initialise_layers(layer, layer_copy, layer_position_offset, num_positions_in_layer_per_thread);
 
         }
-            // If the current Thread's ID belongs to the last Thread
+        // If the current Thread's ID belongs to the last Thread
         else {
 
             // Initialisations of the Layer and Layer's Copy made sequentially, in Code Fusion
@@ -407,7 +407,7 @@ int main(int argc, char *argv[]) {
                     }
 
                 }
-                    // If the current Thread's ID belongs to the last Thread
+                // If the current Thread's ID belongs to the last Thread
                 else {
 
                     // For each Storm File to be processed, individually, in Parallel, by each Thread
@@ -465,9 +465,9 @@ int main(int argc, char *argv[]) {
             }
 
         }
-            // If it is given less number of
-            // Storm Files than the given number of Threads:
-            // - In this case, only some Threads will be used for the Storm Files;
+        // If it is given less number of
+        // Storm Files than the given number of Threads:
+        // - In this case, only some Threads will be used for the Storm Files;
         else {
 
             // The remaining Threads to be distributed by all the Storms (Input Files)
@@ -556,7 +556,7 @@ int main(int argc, char *argv[]) {
                             }
 
                         }
-                            // If the ID Storm's Forked Thread belongs to the last Storm's Forked Thread
+                        // If the ID Storm's Forked Thread belongs to the last Storm's Forked Thread
                         else {
 
                             /* 4.1. Add impacts energies to layer cells */
@@ -608,9 +608,9 @@ int main(int argc, char *argv[]) {
                 }
 
             }
-                // If the number of Threads per Storm is lower or equal to 1
-                // NOTE:
-                // - In this case, all the remaining work will be executed sequentially;
+            // If the number of Threads per Storm is lower or equal to 1
+            // NOTE:
+            // - In this case, all the remaining work will be executed sequentially;
             else {
 
                 /* 4. Storms simulation */
@@ -675,7 +675,7 @@ int main(int argc, char *argv[]) {
         }
 
     }
-        /* If it is given only one one Storm File */
+    /* If it is given only one one Storm File */
     else {
 
         /* 4. Storms simulation */
@@ -723,7 +723,7 @@ int main(int argc, char *argv[]) {
                 add_impact_energies_to_layer_cells(num_particles_per_thread, particles, particles_offset, layer, layer_size);
 
             }
-                // If the current Thread's ID belongs to the last Thread
+            // If the current Thread's ID belongs to the last Thread
             else {
 
                 /* 4.1. Add impacts energies to layer cells */
@@ -778,9 +778,9 @@ int main(int argc, char *argv[]) {
     total_time = (compute_wall_time() - total_time);
 
     /* 6. DEBUG: Plot the result (only for layers up to 35 points) */
-#ifdef DEBUG
+    #ifdef DEBUG
     debug_print(layer_size, layer, positions, maximum, num_storms);
-#endif
+    #endif
 
     /* 7. Results output, used by the Tablon online judge software */
     printf("\n");
