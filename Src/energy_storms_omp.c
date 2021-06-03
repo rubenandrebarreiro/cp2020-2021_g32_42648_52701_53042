@@ -485,7 +485,9 @@ int main(int argc, char *argv[]) {
                     if(current_cell == 1) {
 
                         // Compute the Energy value for the last Local Maximum found, for the current Thread
-                        last_local_maximum_energy = ((layer_copy_1[(layer_offset + current_cell - 2)] + layer_copy_2[(layer_offset + current_cell - 1)] + layer_copy_3[(layer_offset + current_cell)]) / 3);
+                        last_local_maximum_energy = ((layer_copy_1[(layer_offset + current_cell - 2)] +
+                                                      layer_copy_2[(layer_offset + current_cell - 1)] +
+                                                      layer_copy_3[(layer_offset + current_cell)]) / 3);
 
                     }
 
@@ -493,7 +495,7 @@ int main(int argc, char *argv[]) {
                     float current_energy_value = ((layer_copy_1[(layer_offset + current_cell - 1)] + layer_copy_2[(layer_offset + current_cell)] + layer_copy_3[(layer_offset + current_cell + 1)]) / 3);
 
                     // Update the Energy value, for the current Cell of the Layer
-                    layer[layer_offset + current_cell] = current_energy_value;
+                    layer[(layer_offset + current_cell)] = current_energy_value;
 
                     // If the current Energy value is lower than
                     // the Energy value for the last Local Maximum found
@@ -574,7 +576,7 @@ int main(int argc, char *argv[]) {
         global_maximum_positions[current_storm] = local_maximum_position[0];
 
         // For each Thread launched
-        for(current_thread = 1; current_thread < num_threads; current_thread++){
+        for(current_thread = 1; current_thread < num_threads; current_thread++) {
 
             // Compute the Offset for the memory accesses made by the current Thread
             int offset = (current_thread * layer_size_per_thread);
@@ -583,7 +585,7 @@ int main(int argc, char *argv[]) {
             float thread_energy = ((layer_copy_1[(offset - 1)] + layer_copy_2[offset] + layer_copy_3[(offset + 1)]) / 3);
 
             // If the current Thread found a new Global Maximum of Energy
-            if(thread_energy > global_maximum_energies[current_storm]){
+            if(thread_energy > global_maximum_energies[current_storm]) {
 
                 // Update the energy for the Global Maximum for the current Storm,
                 // according to the Energy value computed by the current Thread
@@ -597,7 +599,7 @@ int main(int argc, char *argv[]) {
 
             // If the energy of the Local Maximum for the current Thread is greater than
             // the Global Maximum for the current Storm
-            if(local_maximum_energy[current_thread] > global_maximum_energies[current_storm]){
+            if(local_maximum_energy[current_thread] > global_maximum_energies[current_storm]) {
 
                 // Update the energy of the Global Maximum, for the current Storm
                 global_maximum_energies[current_storm] = local_maximum_energy[current_thread];
