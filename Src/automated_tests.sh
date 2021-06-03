@@ -17,10 +17,7 @@ DEBUG_RECORDS=true
 EXHAUSTIVE_METRICS=false
 
 # shellcheck disable=SC2034
-FILE_NAMES_EXEC_LIST_TEST_01_1=("test_files/test_01_a35_p5_w3"
-                                "test_files/test_01_a35_p7_w2"
-                                "test_files/test_01_a35_p8_w1"
-                                "test_files/test_01_a35_p8_w4")
+FILE_NAMES_EXEC_LIST_TEST_01_1=("test_files/test_01_a35_p8_w1")
 
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_01_2=("test_files/test_01_a35_p5_w3 test_files/test_01_a35_p7_w2 test_files/test_01_a35_p8_w1"
@@ -51,14 +48,10 @@ FILE_NAMES_EXEC_LIST_TEST_06_1=("test_files/test_06_a20_p4_w1")
 FILE_NAMES_EXEC_LIST_TEST_03_04_05_06_1=("test_files/test_03_a20_p4_w1 test_files/test_04_a20_p4_w1 test_files/test_05_a20_p4_w1 test_files/test_06_a20_p4_w1")
 
 # shellcheck disable=SC2034
-FILE_NAMES_EXEC_LIST_TEST_07_1=("test_files/test_07_a1M_p5k_w1"
-                                "test_files/test_07_a1M_p5k_w2"
-                                "test_files/test_07_a1M_p5k_w3"
-                                "test_files/test_07_a1M_p5k_w4")
+FILE_NAMES_EXEC_LIST_TEST_07_1=("test_files/test_07_a1M_p5k_w2")
 
 # shellcheck disable=SC2034
-FILE_NAMES_EXEC_LIST_TEST_07_2=("test_files/test_07_a1M_p5k_w1 test_files/test_07_a1M_p5k_w2"
-                                "test_files/test_07_a1M_p5k_w3 test_files/test_07_a1M_p5k_w4")
+FILE_NAMES_EXEC_LIST_TEST_07_2=("test_files/test_07_a1M_p5k_w3 test_files/test_07_a1M_p5k_w4")
 
 # shellcheck disable=SC2034
 FILE_NAMES_EXEC_LIST_TEST_08_1=("test_files/test_08_a100M_p1_w1"
@@ -101,10 +94,10 @@ NUM_CONTROL_POINTS_LIST_TEST_08="1000 10000 100000 1000000 10000000 100000000 50
 # shellcheck disable=SC2034
 NUM_CONTROL_POINTS_LIST_TEST_09="1000 10000 100000 1000000 10000000 100000000 500000000"
 
-FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_09_1[@]}")
-NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_09
+FILE_NAMES_EXEC_LIST=("${FILE_NAMES_EXEC_LIST_TEST_01_1[@]}")
+NUM_CONTROL_POINTS_LIST=$NUM_CONTROL_POINTS_LIST_TEST_01
 
-TEST_SET_NUM="09_1"
+TEST_SET_NUM="01_1"
 NUM_THREADS_LIST="1 2 4 6 8 12"
 
 NUM_EXECS="10"
