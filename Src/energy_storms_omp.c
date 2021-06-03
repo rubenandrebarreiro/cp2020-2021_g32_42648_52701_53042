@@ -235,12 +235,12 @@ int main(int argc, char *argv[]) {
     }
 
     /* 1.3. Initialise maximum levels to zero */
-    float maximum[num_storms];
-    int positions[num_storms];
+    float global_maximum_energies[num_storms];
+    int global_maximum_positions[num_storms];
 
     for(current_storm=0; current_storm < num_storms; current_storm++) {
-        maximum[current_storm] = 0.0f;
-        positions[current_storm] = 0;
+        global_maximum_energies[current_storm] = 0.0f;
+        global_maximum_positions[current_storm] = 0;
     }
 
     /* Initialise the private variables for the Threads' Identification */
@@ -397,17 +397,25 @@ int main(int argc, char *argv[]) {
 
         }
 
+        // Merge of the individual intermediate results of
+        // the Layer's copies of each Thread to the final Layer's results
+
+        // For each Thread
         for (current_thread = 0; current_thread < num_threads; current_thread++) {
 
+            // For each cell on the Layer
             for (current_cell = 0; current_cell < layer_size; current_cell++) {
 
+                // Compute the final result for the current cell on the Layer
                 float result = layer[current_cell] + layers_threads[current_thread][current_cell];
 
+                // Copy the result values for the Layer's copies
                 layer[current_cell] = result;
                 layer_copy_1[current_cell] = result;
                 layer_copy_2[current_cell] = result;
                 layer_copy_3[current_cell] = result;
 
+                // Initialise the Layer's copies, with the value 0
                 layers_threads[current_thread][current_cell] = 0.0f;
 
             }
@@ -425,15 +433,24 @@ int main(int argc, char *argv[]) {
         // are not divisible for the number of Threads
         int layer_size_for_last_thread = (layer_size_per_thread + remaining_size_for_last_thread);
 
-        float local_maximum[num_threads];
+        // Create the energies of the Local Maximums for each Thread
+        float local_maximum_energy[num_threads];
+
+        // Create the positions of the Local Maximums for each Thread
         int local_maximum_position[num_threads];
 
+        // Initialise the Local Maximums for each Thread
+        for(current_thread = 0; current_thread < num_threads; current_thread++) {
 
-        for(int i=0; i < num_threads; i++) {
-            local_maximum[i] = 0.0f;
-            local_maximum_position[i] = 0;
+            // Initialise the energy for the Local Maximums,
+            // for the current Thread
+            local_maximum_energy[current_thread] = 0.0f;
+
+            // Initialise the position for the Local Maximums,
+            // for the current Thread
+            local_maximum_position[current_thread] = 0;
+
         }
-
 
         /* 4.1. Add impacts energies to layer cells */
         /* For each particle */
@@ -442,7 +459,7 @@ int main(int argc, char *argv[]) {
         // - Number of Threads to be launched, in the Parallel Loop: num_threads
         // - Shared Variables by all the Threads: num_threads, num_positions_in_layer_per_thread
         // - NOTE: This loop is Embarrassingly Parallel and does not have any Loop-Carried Dependencies;
-        #pragma omp parallel for private(thread_id, current_thread) num_threads(num_threads) shared(num_threads, layer_size_per_thread, layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, local_maximum, local_maximum_position)
+        #pragma omp parallel for private(thread_id, current_thread) num_threads(num_threads) shared(num_threads, layer_size_per_thread, layer, layer_copy_1, layer_copy_2, layer_copy_3, layer_size, local_maximum_energy, local_maximum_position)
         for(current_thread = 0; current_thread < num_threads; current_thread++) {
 
             // Set the Private Variable for the ID of the current Thread
@@ -454,62 +471,142 @@ int main(int argc, char *argv[]) {
             // If the current Thread's ID does not belong to the last Thread
             if(thread_id < (num_threads - 1)) {
 
-                // For each Position in Layer to be initialised, individually, in Parallel, by each Thread
-                for(int current_layer = 1; current_layer < layer_size_per_thread; current_layer++) {
-                    float last_result = layer[layer_offset + current_layer - 1];
-                    int last_result_pos = layer_offset + current_layer - 1;
-                    if(current_layer == 1){
-                        last_result = ((layer_copy_1[((layer_offset + current_layer) - 2)] + layer_copy_2[layer_offset + current_layer-1] + layer_copy_3[((layer_offset + current_layer))]) / 3);
-                    }
-                    float result = ((layer_copy_1[((layer_offset + current_layer) - 1)] + layer_copy_2[layer_offset + current_layer] + layer_copy_3[((layer_offset + current_layer) + 1)]) / 3);
-                    layer[layer_offset + current_layer] = result;
+                // For each Cell in Layer, assigned to the current Thread
+                for(current_cell = 1; current_cell < layer_size_per_thread; current_cell++) {
 
-                    if(result < last_result){
-                        if(last_result > local_maximum[current_thread]){
-                            local_maximum[current_thread] = last_result;
-                            local_maximum_position[current_thread] = last_result_pos;
-                        }
+                    // Compute the Energy value for the last Local Maximum found, for the current Thread
+                    float last_local_maximum_energy = layer[( layer_offset + current_cell - 1 )];
+
+                    // Compute the Position value for the last Local Maximum found, for the current Thread
+                    int last_local_maximum_position = (layer_offset + current_cell - 1);
+
+                    // If it is the first Cell,
+                    // from which is pretended to compute the corresponding Energy and Position
+                    if(current_cell == 1) {
+
+                        // Compute the Energy value for the last Local Maximum found, for the current Thread
+                        last_local_maximum_energy = ((layer_copy_1[(layer_offset + current_cell - 2)] + layer_copy_2[(layer_offset + current_cell - 1)] + layer_copy_3[(layer_offset + current_cell)]) / 3);
+
                     }
+
+                    // Compute the current Energy value, from the current Cell's neighbors
+                    float current_energy_value = ((layer_copy_1[(layer_offset + current_cell - 1)] + layer_copy_2[(layer_offset + current_cell)] + layer_copy_3[(layer_offset + current_cell + 1)]) / 3);
+
+                    // Update the Energy value, for the current Cell of the Layer
+                    layer[layer_offset + current_cell] = current_energy_value;
+
+                    // If the current Energy value is lower than
+                    // the Energy value for the last Local Maximum found
+                    if(current_energy_value < last_local_maximum_energy) {
+
+                        // If it was found a new intermediate Local Maximum
+                        if(last_local_maximum_energy > local_maximum_energy[current_thread]) {
+
+                            // Update the Energy for the Local Maximum, of the current Thread
+                            local_maximum_energy[current_thread] = last_local_maximum_energy;
+
+                            // Update the Position for the Local Maximum, of the current Thread
+                            local_maximum_position[current_thread] = last_local_maximum_position;
+
+                        }
+
+                    }
+
                 }
+
             }
-                // If the current Thread's ID belongs to the last Thread
+            // If the current Thread's ID belongs to the last Thread
             else {
 
-                // For each Position in Layer to be initialised, individually, in Parallel, by the last Thread
-                for (int current_layer = 1; current_layer < layer_size_for_last_thread; current_layer++) {
+                // For each Cell in Layer, assigned to the current Thread
+                for (current_cell = 1; current_cell < layer_size_for_last_thread; current_cell++) {
 
-                    float last_result = layer[layer_offset + current_layer - 1];
-                    int last_result_pos = layer_offset + current_layer - 1;
-                    if(current_layer == 1){
-                        last_result = ((layer_copy_1[((layer_offset + current_layer) - 2)] + layer_copy_2[layer_offset + current_layer-1] + layer_copy_3[((layer_offset + current_layer))]) / 3);
+                    // Compute the Energy value for the last Local Maximum found, for the current Thread
+                    float last_local_maximum_energy = layer[( layer_offset + current_cell - 1 )];
+
+                    // Compute the Position value for the last Local Maximum found, for the current Thread
+                    int last_local_maximum_position = (layer_offset + current_cell - 1);
+
+                    // If it is the first Cell,
+                    // from which is pretended to compute the corresponding Energy and Position
+                    if(current_cell == 1) {
+
+                        // Compute the Energy value for the last Local Maximum found, for the current Thread
+                        last_local_maximum_energy = ((layer_copy_1[(layer_offset + current_cell - 2)] + layer_copy_2[(layer_offset + current_cell - 1)] + layer_copy_3[(layer_offset + current_cell)]) / 3);
+
                     }
-                    float result = ((layer_copy_1[((layer_offset + current_layer) - 1)] + layer_copy_2[layer_offset + current_layer] + layer_copy_3[((layer_offset + current_layer) + 1)]) / 3);
-                    layer[layer_offset + current_layer] = result;
 
-                    if(result < last_result){
-                        if(last_result > local_maximum[current_thread]){
-                            local_maximum[current_thread] = last_result;
-                            local_maximum_position[current_thread] = last_result_pos;
+                    // Compute the current Energy value, from the current Cell's neighbors
+                    float current_energy_value = ((layer_copy_1[(layer_offset + current_cell - 1)] + layer_copy_2[(layer_offset + current_cell)] + layer_copy_3[(layer_offset + current_cell + 1)]) / 3);
+
+                    // Update the Energy value, for the current Cell of the Layer
+                    layer[(layer_offset + current_cell)] = current_energy_value;
+
+                    // If the current Energy value is lower than
+                    // the Energy value for the last Local Maximum found
+                    if(current_energy_value < last_local_maximum_energy) {
+
+                        // If it was found a new intermediate Local Maximum
+                        if(last_local_maximum_energy > local_maximum_energy[current_thread]) {
+
+                            // Update the Energy for the Local Maximum, of the current Thread
+                            local_maximum_energy[current_thread] = last_local_maximum_energy;
+
+                            // Update the Position for the Local Maximum, of the current Thread
+                            local_maximum_position[current_thread] = last_local_maximum_position;
+
                         }
+
                     }
+
                 }
+
             }
+
         }
 
+        // Initialise the Energy for the Global Maximum of the current Thread,
+        // according to the 1st Local Maximum
+        global_maximum_energies[current_storm] = local_maximum_energy[0];
 
-        maximum[current_storm] = local_maximum[0];
-        positions[current_storm] = local_maximum_position[0];
+        // Initialise the Position for the Global Maximum of the current Thread,
+        // according to the 1st Local Maximum
+        global_maximum_positions[current_storm] = local_maximum_position[0];
+
+        // For each Thread launched
         for(current_thread = 1; current_thread < num_threads; current_thread++){
-            int offset = current_thread * layer_size_per_thread;
-            float result = ((layer_copy_1[(offset)-1] + layer_copy_2[offset] + layer_copy_3[(offset)+1]) / 3);
-            if(result > maximum[current_storm]){
-                maximum[current_storm] = result;
-                positions[current_storm] = offset;
+
+            // Compute the Offset for the memory accesses made by the current Thread
+            int offset = (current_thread * layer_size_per_thread);
+
+            // Compute the Energy for the memory accesses made by the current Thread
+            float thread_energy = ((layer_copy_1[(offset - 1)] + layer_copy_2[offset] + layer_copy_3[(offset + 1)]) / 3);
+
+            // If the current Thread found a new Global Maximum of Energy
+            if(thread_energy > global_maximum_energies[current_storm]){
+
+                // Update the energy for the Global Maximum for the current Storm,
+                // according to the Energy value computed by the current Thread
+                global_maximum_energies[current_storm] = thread_energy;
+
+                // Update the Position for the Global Maximum for the current Storm,
+                // according to the Offset computed by the current Thread
+                global_maximum_positions[current_storm] = offset;
+
             }
-            if(local_maximum[current_thread] > maximum[current_storm]){
-                maximum[current_storm] = local_maximum[current_thread];
-                positions[current_storm] = local_maximum_position[current_thread];
+
+            // If the energy of the Local Maximum for the current Thread is greater than
+            // the Global Maximum for the current Storm
+            if(local_maximum_energy[current_thread] > global_maximum_energies[current_storm]){
+
+                // Update the energy of the Global Maximum, for the current Storm
+                global_maximum_energies[current_storm] = local_maximum_energy[current_thread];
+
+                // Update the position of the Global Maximum, for the current Storm
+                global_maximum_positions[current_storm] = local_maximum_position[current_thread];
+
             }
+
         }
 
     }
@@ -521,7 +618,7 @@ int main(int argc, char *argv[]) {
 
     /* 6. DEBUG: Plot the result (only for layers up to 35 points) */
     #ifdef DEBUG
-    debug_print(layer_size, layer, positions, maximum, num_storms);
+    debug_print(layer_size, layer, global_maximum_positions, global_maximum_energies, num_storms);
     #endif
 
     /* 7. Results output, used by the Tablon online judge software */
@@ -533,9 +630,11 @@ int main(int argc, char *argv[]) {
     /* 7.2. Print the maximum levels */
     printf("Result:");
 
+    // Fore each Storm
     for(current_storm=0; current_storm < num_storms; current_storm++) {
 
-        printf(" %d %f", positions[current_storm], maximum[current_storm]);
+        // Print the Energy and Position for the Global Maximum of the current Storm
+        printf(" %d %f", global_maximum_positions[current_storm], global_maximum_energies[current_storm]);
 
     }
 
