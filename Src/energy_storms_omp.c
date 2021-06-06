@@ -393,6 +393,7 @@ int main(int argc, char *argv[]) {
 
         }
 
+        // Merging the intermediate results from the
         for (current_thread = 0; current_thread < num_threads; current_thread++) {
 
             for (current_cell = 0; current_cell < layer_size; current_cell++) {
@@ -465,9 +466,22 @@ int main(int argc, char *argv[]) {
     printf("\n");
 
     /* 8. Free resources */
+
+    /* Fee the Storms' positions and values array */
     for(current_storm=0; current_storm < (argc - 3); current_storm++) {
 
         free(storms[current_storm].position_values);
+
+    }
+
+    /* Free Layer and Layer's copy */
+    free(layer);
+    free(layer_copy);
+
+    /* Free intermediate Layers' copies for Threads */
+    for(current_thread = 0; current_thread < num_threads; current_thread++) {
+
+        free(layers_threads[current_thread]);
 
     }
 
